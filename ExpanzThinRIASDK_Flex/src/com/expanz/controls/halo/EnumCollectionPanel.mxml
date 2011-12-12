@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="onCreationComplete()"
+	layout="absolute" implements="com.expanz.interfaces.IServerBoundControl, com.expanz.interfaces.IEditableControl"
+	 >
+	
+	<mx:Script>
+		<![CDATA[
+			import com.expanz.*;
+			import com.expanz.constants.MessageSchemaAttributes;
+			
+			import flash.events.*;
+			
+			import mx.controls.*;
+			import mx.events.FlexEvent;
+			
+		private var harness:ControlHarness;
+		private var myCheckboxes:Dictionary;
+		private var myReverseLookup:Dictionary;
+		private function onCreationComplete():void
+		{
+			harness=new ControlHarness(this);
+		}
+		public function get fieldId():String
+		{
+			return MessageSchemaAttributes.makeServerName(this.name);
+		}
+		private function onClick(e:Event):void
+		{
+			var cb:CheckBox = e.target as CheckBox;
+			var val:int=myCheckboxes[cb];
+			var delta:XML = harness.DeltaElement;
+			delta.@[MessageSchemaAttributes.IDAttrib]= fieldId;
+			if (!cb.selected) val = -val;
+			delta.@[MessageSchemaAttributes.Value]=val.toString();
+			harness.sendXml(delta);
+		}
+		public function publishXml(publishElement:XML):void
+		{
+			var creating:Boolean = false;
+			var child:XML = publishElement.firstChild;
+			
+			if (child!=null && myCheckboxes == null)
+			{
+				creating = true;
+				myCheckboxes = new Dictionary();
+				myReverseLookup = new Dictionary();
+			}
+			while (child != null)
+			{
+				if (child.localName() == "Item")
+				{
+					var val:int = parseInt(child.@value);
+					var selected:Boolean = MessageSchemaAttributes.boolValue(child.@selected);
+					var cb:CheckBox;
+					if (creating)
+					{
+						var text:String = child.@[MessageSchemaAttributes.Text];
+						cb = new CheckBox();
+						cb.addEventListener(Event.CHANGE,onClick);
+						cb.label = text;
+						if(child.@hint.length) cb.toolTip=child.@hint;
+						this.ContentPanel.addChild(cb);
+						myCheckboxes[cb] = val;
+						myReverseLookup[val] = cb;
+					}
+					else
+					{
+						cb = myReverseLookup[val];
+					}
+					if (cb.selected != selected) cb.selected = selected;
+				}
+				child = child.nextSibling;
+			}
+		}
+		public function setControlVisible(visible:Boolean):void
+		{
+			this.visible=visible;
+		}
+			
+		public function setEditable(e:Boolean):void
+		{
+			this.enabled=e;
+		}
+		public function setLabel(label:String):void
+		{
+			this.title = label;
+		}
+		public function setHint(hint:String):void
+		{
+			//pbHelp.ToolTip = hint + "  Click for more";
+		}
+		public function setNull():void
+		{
+			//fixme?
+		}
+		public function setValue(text:String):void
+		{
+			//should never be called
+		}
+		public function get DeltaXml():XML{return null;}
+		]]>
+	</mx:Script>
+	<mx:Tile id="ContentPanel">
+	</mx:Tile>
+	
+</mx:Panel>

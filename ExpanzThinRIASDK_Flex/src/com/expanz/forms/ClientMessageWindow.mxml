@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="204" 
+		 title="{_titleText}" close="titlewindow_closeHandler(event)">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.expanz.ActivityHarness;
+			import com.expanz.ExpanzThinRIA;
+			import com.expanz.controls.buttons.ClientMessageButton;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import spark.skins.spark.ListSkin;
+			
+			[Bindable]
+			private var _titleText:String;
+			[Bindable]
+			private var _messageText:String;
+			
+			[Bindable]
+			private var _actionButtons:ArrayCollection = new ArrayCollection();
+			
+			public var resultDoc:XML;
+			public var activityHarness:ActivityHarness;
+			
+			public function publishXml(uiMessage:XML):void
+			{
+				_titleText = uiMessage.@title;
+				_messageText = uiMessage.@text;
+				
+				for each (var child:XML in uiMessage.children())
+				{
+					// ACTIONS - create a button for each one
+					if (child.localName() == "Actions")
+					{
+						createActionButtons(child);
+					}
+				}
+			}
+			
+			private function createActionButtons(actions:XML):void
+			{
+				var clientMessageButton:ClientMessageButton;
+				
+				for each (var action:XML in actions.children())
+				{
+					clientMessageButton = new ClientMessageButton(action.@label, action.Request.children(), action.Response.children(), this);
+					_actionButtons.addItem(clientMessageButton); 
+				}
+			}
+			
+			public function messageButtonClick(sender:ClientMessageButton):void
+			{
+				 if (sender == null)
+					return;
+				
+				try
+				{
+					var apphost:ExpanzThinRIA = ExpanzThinRIA.getInstance();
+					if (sender.response.length() > 0)
+					{
+						resultDoc = new XML("<ESA>" + sender.response.toXMLString() + "</ESA>");
+						activityHarness.publishResponse(resultDoc);						
+					}
+					else if (sender.request.length() > 0)
+					{
+						activityHarness.Exec(sender.request[0])
+					}
+					else
+					{
+						//straight up cancel as in do nothing / continue
+					}
+				}
+				catch (error:Error)
+				{ 
+					trace(error.message); 	
+				}
+				finally 
+				{ 
+					PopUpManager.removePopUp(this);	
+				} 
+			}
+
+			protected function titlewindow_closeHandler(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+
+
+			protected function actionButtonContainer_creationCompleteHandler(event:FlexEvent):void
+			{
+				for each (var button:ClientMessageButton in _actionButtons)
+				{
+					actionButtonContainer.addElement(button);
+				}
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:Label text="{_messageText}" width="378" height="104" x="10" y="10" verticalAlign="middle" textAlign="center"/>
+
+	<s:HGroup id="actionButtonContainer" verticalAlign="middle" horizontalAlign="center" x="10" y="122" width="378" height="39" gap="10" creationComplete="actionButtonContainer_creationCompleteHandler(event)">
+		
+	</s:HGroup>
+
+	<!--<s:List dataProvider="{_actionButtons}" skinClass="com.expanz.skins.BorderlessListSkin" itemRenderer="spark.components.Button" x="10" y="122" width="378" height="39">
+		<s:layout>
+			<s:ButtonBarHorizontalLayout/>
+		</s:layout>
+	</s:List>-->
+		
+</s:TitleWindow>

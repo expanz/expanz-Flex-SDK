@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" width="616" height="456" title="XML Traffic Debug" 
+				layout="absolute" close="titlewindow_closeHandler(event)" creationComplete="onCreationComplete()" xmlns:s="library://ns.adobe.com/flex/spark">
+	<mx:Script>
+		<![CDATA[
+			import com.expanz.ExpanzThinRIA;
+			
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+						
+			private var appHost:ExpanzThinRIA = ExpanzThinRIA.getInstance();
+			
+ 			private function onCreationComplete():void
+			{
+				if(appHost!=null)
+				{
+					if(appHost.request!=null)
+						request.text=appHost.request.toString();
+					
+					if(appHost.response!=null)
+						response.text=appHost.response.toString();
+				}
+			}
+			
+			protected function titlewindow_closeHandler(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+			}			
+
+			protected function closeButton_clickHandler(event:MouseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+
+		]]>
+	</mx:Script>
+	
+	<mx:TabNavigator left="13" right="13" top="31" bottom="35" creationPolicy="all">
+		<mx:Canvas label="Response" height="323" y="0" width="586" x="0">
+			<mx:TextArea id="response" height="100%" y="0" width="100%" x="0"/>
+		</mx:Canvas>
+		<mx:Canvas label="Request" height="323" y="0" width="586" x="0">
+			<mx:TextArea id="request" width="100%" height="100%" y="0" x="0"/>
+		</mx:Canvas>
+	</mx:TabNavigator>
+	<s:Button click="closeButton_clickHandler(event)" label="Close" bottom="10" right="15" height="20"/>
+</mx:TitleWindow>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:net="flash.net.*"
+		 implements="com.expanz.interfaces.IServerBoundControl, com.expanz.interfaces.IEditableControl, com.expanz.interfaces.IMediaControl"
+		 creationComplete="creationCompleteHandler(event)">
+	<fx:Metadata>
+		[IconFile("Image.png")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import com.expanz.ControlHarness;
+			import com.expanz.constants.MessageSchemaAttributes;
+			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.graphics.ImageSnapshot;
+			import mx.utils.Base64Encoder;
+			import mx.utils.ObjectUtil;
+			
+			private var harness:ControlHarness;
+			
+			private function browseAndPreviewImage(evt:MouseEvent):void 
+			{
+				var arr:Array = [];
+				arr.push(new FileFilter("Images", ".gif;*.jpeg;*.jpg;*.png"));
+				fileReference.browse(arr);				
+			}
+			
+			private function fileReference_select(evt:Event):void 
+			{
+				fileReference.load();
+			}
+			
+			private function fileReference_complete(evt:Event):void 
+			{
+				img.source = fileReference.data;
+				harness.sendXml(DeltaXmlFromFile);				
+			}			
+			
+			//------------------------------------------------------
+			// IServerBoundControl Interface Implementation
+			//------------------------------------------------------
+			include "../../includes/IServerBoundControlImpl.as";
+			
+			//------------------------------------------------------
+			// IEditableControl Interface Implementation
+			//------------------------------------------------------	
+			/**
+			 * @inheritDoc
+			 */
+			public function get DeltaXmlFromFile():XML
+			{				
+				var base64Encoder:Base64Encoder = new Base64Encoder();
+				base64Encoder.encodeBytes(fileReference.data);
+				var delta:XML = <Delta>{base64Encoder.toString()}</Delta>;
+				
+				delta.@[MessageSchemaAttributes.IDAttrib]= fieldId;
+				delta.@[MessageSchemaAttributes.Value]= "$longData$";
+				delta.@[MessageSchemaAttributes.Encoding]= "BASE64";					
+				
+				return delta;
+			}	
+			 		
+			public function get DeltaXml():XML
+			{
+				var ohSnap:ImageSnapshot = ImageSnapshot.captureImage(img);
+				var delta:XML = <Delta>{ImageSnapshot.encodeImageAsBase64(ohSnap)}</Delta>;
+				
+				delta.@[MessageSchemaAttributes.IDAttrib]= fieldId;
+				delta.@[MessageSchemaAttributes.Value]= "$longData$";
+				delta.@[MessageSchemaAttributes.Encoding]= "BASE64";					
+				
+				return delta;
+			}	 
+					
+			
+			/**
+			 * @inheritDoc
+			 */
+			public function setEditable(editable:Boolean):void
+			{			
+			}
+			
+			/**
+			 * @inheritDoc
+			 */
+			public function setNull():void
+			{
+				img.source=null;
+			}
+			
+			/**
+			 * @inheritDoc
+			 */
+			public function setValue(text:String):void
+			{
+				img.source=text;
+			}
+			
+			/**
+			 * @inheritDoc
+			 */
+			public function setLabel(label:String):void
+			{
+				panel.title=label;
+			}
+			
+			/**
+			 * @inheritDoc
+			 */
+			public function setHint(hint:String):void
+			{
+				panel.toolTip=hint;
+			}
+			
+			/**
+			 * @inheritDoc
+			 */
+			public function publishXml(xml:XML):void
+			{			
+			}
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				harness = new ControlHarness(this);
+			}
+			
+			[Inspectable(category="expanz", enumeration="URL, BLOB", defaultValue="URL")]
+			public function get publishType():String
+			{
+				return _publishType;				
+			}
+			
+			public function set publishType(value:String):void
+			{
+				_publishType = value;
+			}
+			
+			private var _publishType:String;
+			
+			private function img_httpStatus(evt:HTTPStatusEvent):void 
+			{
+				return; //for debugging only
+				
+				switch (evt.status) 
+				{
+					case 200:
+						// Valid image, do nothing.
+						break;
+					case 404:
+						// Invalid image, PANIC!
+						Alert.show("invalid image!", evt.status.toString());
+						break;
+					default:
+						Alert.show(evt.toString(), evt.status.toString());
+						break;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<net:FileReference id="fileReference"
+						   select="fileReference_select(event);"
+						   complete="fileReference_complete(event);" />
+	</fx:Declarations>
+	
+	<mx:Panel id="panel"
+			  layout="absolute"
+			  horizontalCenter="0"
+			  verticalCenter="0"
+			  width="100%"
+			  height="100%">
+		<mx:Image id="img"
+				  verticalCenter="0"
+				  horizontalCenter="0"
+				  maxWidth="200"
+				  maxHeight="200" 
+				  httpStatus="img_httpStatus(event);" 
+				  />
+		<mx:ControlBar>
+			<mx:Button id="btn"
+					   label="Select Image"
+					   click="browseAndPreviewImage(event);" />			
+		</mx:ControlBar>
+	</mx:Panel>
+	
+</mx:Canvas>

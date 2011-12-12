@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="50" height="50" borderColor="#000000" borderStyle="solid"
+	horizontalScrollPolicy="off"
+	verticalScrollPolicy="off">
+	<mx:Script>
+		<![CDATA[
+			[Bindable]
+			public var key:String;			
+			[Bindable]
+			public var hint:String;
+			[Bindable]
+			private var _value:String;
+			public var control:SizeChooserEx;
+			
+			public function set value(v:String):void {
+				if (v == "0")
+					v = "";
+					
+				_value = v;
+				lastValue = v; //init
+			}
+			
+			public function get value():String {
+				return _value;
+			}
+			
+			
+			
+			private var lastValue:String;
+			
+			
+			private function commit(event:Event):void {
+				
+				if (lastValue!=event.target.text) {//do not send if nothing has changed
+					control.onChange(this);
+					lastValue!=event.target.text;
+				}
+				
+			}
+		]]>
+	</mx:Script>
+	<mx:Canvas backgroundColor="#333333" width="100%" height="50%" />
+	<mx:Label y="2" color="#FFFFFF" fontWeight="bold" text="{key}" fontSize="10" textAlign="center" horizontalCenter="0" toolTip="{hint}"/>
+	<mx:TextInput id="field" borderStyle="none" y="25" text="{_value}" fontSize="12" fontWeight="bold" textAlign="center" horizontalCenter="0" width="44"
+		restrict="0-9" focusOut="commit(event)" enter="commit(event)"/>
+	
+</mx:Canvas>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas implements="com.expanz.interfaces.IMessagePanel" xmlns:mx="http://www.adobe.com/2006/mxml">
+
+	<mx:Style>
+		#text{
+			backgroundAlpha:0;
+			borderStyle:none;
+		}
+	</mx:Style>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import com.expanz.constants.MessageSchemaAttributes;
+
+			public var popupWarnings:Boolean = false;
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Public Properties
+			//
+			//--------------------------------------------------------------------------	
+			
+			private var _popupErrors:Boolean = false;
+			[Inspectable(category="expanz")]
+			/**
+			 * @inheritdoc
+			 */
+			public function get popupErrors():Boolean
+			{
+				return _popupErrors;
+			}
+			public function set popupErrors(value:Boolean):void
+			{
+				_popupErrors = value;
+			}
+
+			public function clear():void
+			{
+				text.htmlText = "";
+			}
+
+			public function addMessage(xmlmsg:XML):void
+			{
+				var msg:String = xmlmsg.valueOf();
+				var severity:String = xmlmsg.@[MessageSchemaAttributes.Type].toString().toUpperCase();
+				var colour:String = "#00ff00";
+
+				if (msg=="")
+					return;
+				
+				if (severity == "WARNING")
+				{
+					colour = "#666600";
+
+					if (popupWarnings)
+					{
+						Alert.show(msg, "Warning");
+					}
+
+				}
+				else if (severity == "ERROR")
+				{
+					colour = "#ff0000";
+
+					if (popupErrors)
+					{
+						Alert.show(msg, "Problem");
+					}
+				}
+
+				if (text.htmlText.length > 0)
+				{
+					text.htmlText = "<BR/>" + text.htmlText;
+				}
+				text.htmlText = "<font color='" + colour + "'>" + msg + "</font>" + text.htmlText;
+
+				effect.play();
+			}
+		]]>
+	</mx:Script>
+
+	<mx:Sequence id="effect" duration="300" target="{bg}">
+		<mx:Fade alphaFrom="1" alphaTo="0" />
+		<mx:Fade alphaFrom="0" alphaTo="1" />
+		<mx:Fade alphaFrom="1" alphaTo="0" />
+		<mx:Fade alphaFrom="0" alphaTo="1" />
+		<mx:Fade alphaFrom="1" alphaTo="0" />
+		<mx:Fade alphaFrom="0" alphaTo="1" />
+		<mx:Fade alphaFrom="1" alphaTo="0" />
+		<mx:Fade alphaFrom="0" alphaTo="1" />
+		<mx:Fade alphaFrom="1" alphaTo="0" />
+		<mx:Fade alphaFrom="0" alphaTo="1" />
+	</mx:Sequence>
+
+	<mx:Canvas id="bg" width="100%" height="100%" backgroundColor="0xffffff" horizontalScrollPolicy="off" verticalScrollPolicy="off"/>
+	<mx:TextArea id="text"
+				 width="100%"
+				 height="100%"
+				 editable="false" />
+
+</mx:Canvas>

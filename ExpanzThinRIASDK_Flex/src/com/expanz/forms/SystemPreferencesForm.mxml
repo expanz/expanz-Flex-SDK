@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" styleName="layoutBox" width="400" height="300">
+
+    <mx:Script>
+        <![CDATA[
+			import com.expanz.events.SystemPreferencesEvent;
+			import com.expanz.vo.common.SystemPreferencesVO;
+			
+			import mx.core.Application;
+			import mx.core.FlexGlobals;
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+
+            [Bindable]
+            public var systemPreferences:SystemPreferencesVO;
+
+
+            private function close_clickHandler(event:CloseEvent):void
+            {
+                PopUpManager.removePopUp(this);
+            }
+
+            private function save_clickHandler(event:MouseEvent):void
+            {
+                systemPreferences.portalAddress = tiPortalAddress.text;
+
+                systemPreferences.userType = rgUserType.selectedValue as String;
+
+                var spEvent:SystemPreferencesEvent = new SystemPreferencesEvent(SystemPreferencesEvent.SAVE_SYSTEM_PREFERENCES, systemPreferences);
+
+                if (isPopUp)
+                {
+					FlexGlobals.topLevelApplication.dispatchEvent(spEvent);
+                }
+                else
+                {
+                    dispatchEvent(spEvent);
+                }
+
+                PopUpManager.removePopUp(this);
+            }
+
+            private function reset_clickHandler(event:MouseEvent):void
+            {
+                var spEvent:SystemPreferencesEvent = new SystemPreferencesEvent(SystemPreferencesEvent.RESET_DEFAULT_SYSTEM_PREFERENCES);
+
+                if (isPopUp)
+                {
+					FlexGlobals.topLevelApplication.dispatchEvent(spEvent);
+                }
+                else
+                {
+                    dispatchEvent(spEvent);
+                }
+
+                PopUpManager.removePopUp(this);
+            }
+
+            private function cancel_clickHandler(event:MouseEvent):void
+            {
+                PopUpManager.removePopUp(this);
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:Form horizontalCenter="0" verticalCenter="0" width="100%" height="100%">
+        <mx:FormHeading label="System Preferences" styleName="h1" />
+        <mx:FormItem label="Server URL" width="100%">
+            <mx:TextInput id="tiPortalAddress" width="100%" text="{systemPreferences.portalAddress}" />
+        </mx:FormItem>
+        <mx:FormItem label="User Type" width="100%">
+            <mx:RadioButtonGroup id="rgUserType" selectedValue="{systemPreferences.userType}" />
+            <mx:RadioButton label="Employee" groupName="rgUserType" value="primary" />
+            <mx:RadioButton label="Client" groupName="rgUserType" value="alternate" />
+        </mx:FormItem>
+        <mx:FormItem width="100%" height="100%">
+            <mx:Text text="These  settings will be saved across sessions on this machine." width="100%" height="100%" />
+        </mx:FormItem>
+        <mx:FormItem width="100%" horizontalAlign="right" direction="horizontal">
+            <mx:Button label="Save" click="save_clickHandler(event);" />
+            <mx:Button label="Reset" click="reset_clickHandler(event);" />
+            <mx:Button label="Cancel" click="cancel_clickHandler(event);" />
+        </mx:FormItem>
+    </mx:Form>
+
+</mx:TitleWindow>

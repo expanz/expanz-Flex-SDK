@@ -1,0 +1,82 @@
+<!--
+      expanz
+      Copyright 2010 expanz
+      All Rights Reserved.
+
+      NOTICE: expanz permits you to use, modify, and distribute this file
+      in accordance with the terms of the license agreement accompanying it.
+
+-->
+<!--- A skin class for the LoginFormEx. 
+      This class defines the text inputs and login button.
+      
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx" >
+	
+	<!-- host component -->
+	<fx:Metadata>
+		<![CDATA[ 
+			/** 
+			* Default Skin for LoginFormEx
+			*/
+			[HostComponent("com.expanz.forms.LoginFormEx")]
+		]]>
+	</fx:Metadata>
+	
+	<s:states>
+		<s:State name="normal" />        
+		<s:State name="noSiteSelection" />        
+		<s:State name="guestNoSiteSelection"/>
+		<s:State name="disabled" />        
+	</s:states>
+	
+	<s:Panel title="{hostComponent.heading}">
+		<mx:Form>	
+			
+			<!--<mx:FormHeading id="heading" label="{hostComponent.heading}"/>-->		
+			
+			<mx:FormItem includeIn="noSiteSelection,normal" width="100%" label="User Name">
+				<s:TextInput id="username"
+							 width="100%"/>
+			</mx:FormItem>
+			
+			<mx:FormItem includeIn="noSiteSelection,normal" width="100%" label="Password">
+				<s:TextInput id="password"
+							 width="100%"
+							 displayAsPassword="true"
+							 />
+			</mx:FormItem>
+			
+			<mx:FormItem width="100%" label="Site"
+						 visible.guestNoSiteSelection="false"
+						 includeInLayout.guestNoSiteSelection="false"
+						 visible.noSiteSelection="false" includeInLayout.noSiteSelection="false">
+				
+				<mx:ComboBox id="siteSelectionList"
+							 width="100%"
+							 labelField="@name"						 
+							 editable="true"/>
+			</mx:FormItem>
+			
+			<mx:FormItem width="100%"
+						 direction="horizontal"
+						 horizontalAlign="right">
+								
+				<s:CheckBox id="guestCheckBox" label="Guest" click="(currentState!='guestNoSiteSelection') ? currentState='guestNoSiteSelection' : currentState='noSiteSelection'"/>
+				
+				<mx:LinkButton id="settingsButton"
+							   label="settings"
+							   tabIndex="4"
+							   />
+				
+				<s:Button id="loginButton"
+						  label="Login"
+						  />
+			</mx:FormItem>				
+			
+		</mx:Form>
+	</s:Panel>
+</s:SparkSkin>

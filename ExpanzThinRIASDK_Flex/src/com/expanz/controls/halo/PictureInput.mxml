@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+	 Copyright (c) 2007 - 2009 Adobe
+	 All rights reserved.
+
+	 Permission is hereby granted, free of charge, to any person obtaining
+	 a copy of this software and associated documentation files (the "Software"),
+	 to deal in the Software without restriction, including without limitation
+	 the rights to use, copy, modify, merge, publish, distribute, sublicense,
+	 and/or sell copies of the Software, and to permit persons to whom the
+	 Software is furnished to do so, subject to the following conditions:
+
+	 The above copyright notice and this permission notice shall be included
+	 in all copies or substantial portions of the Software.
+
+	 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+	 THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+	 IN THE SOFTWARE.
+
+-->
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  styleName="contactsFormPictureFrame" xmlns:buttons="com.expanz.controls.buttons.*"
+					  >
+
+	<fx:Metadata>
+		[Event(name="change", type="flash.events.Event")]
+	</fx:Metadata>
+
+	<s:states>
+		<s:State name="default"/>
+		<s:State name="camera"/>
+	</s:states>
+
+	<fx:Script>
+		<![CDATA[
+			import mx.events.ItemClickEvent;
+			import mx.graphics.ImageSnapshot;
+			import mx.graphics.codec.JPEGEncoder;
+
+			private var _source:ByteArray;
+
+			private static const MISSING_IMAGE_URL:String="assets/nopic.png";
+
+			[Bindable]
+			public var pictureWidth:int=160;
+
+			[Bindable]
+			public var pictureHeight:int=160;
+
+			private var camera:Camera;
+
+			public function set source(source:ByteArray):void
+			{
+				_source=source;
+
+				if (source == null)
+				{
+					pic.source=MISSING_IMAGE_URL;
+				}
+				else
+				{
+					pic.source=_source;
+				}
+			}
+
+			public function get source():ByteArray
+			{
+				return _source;
+			}
+
+			private function takePicture_click():void
+			{
+				takePicture(vd);
+				vd.attachCamera(null);
+			}
+
+			private function cancel_click():void
+			{
+				vd.attachCamera(null);
+				currentState="";
+			}
+
+			private function startCamera():void
+			{
+				camera=Camera.getCamera();
+				currentState="camera";
+				vd.attachCamera(camera);
+			}
+
+			private function takePicture(object:DisplayObject):void
+			{
+				var bd:BitmapData=ImageSnapshot.captureBitmapData(object);
+				var encoder:JPEGEncoder=new JPEGEncoder();
+				source=encoder.encode(bd);
+				currentState="";
+				dispatchEvent(new Event(Event.CHANGE));
+			}
+		]]>
+	</fx:Script>
+
+	<mx:Image id="pic"
+			  width="{pictureWidth}"
+			  height="{pictureHeight}"
+			  source="@Embed('/assets/nopic.png')"
+			  excludeFrom="camera"/>
+
+	<mx:VideoDisplay id="vd"
+					 width="{pictureWidth}"
+					 height="{pictureHeight}"
+					 includeIn="camera"/>
+
+	<s:Group y="{pictureHeight}"
+			 width="100%">
+
+		<s:Button id="activateCameraBtn"
+							   excludeFrom="camera"
+							   width="100%"
+							   styleName="cameraButton"
+							   toolTip="Activate Camera"
+							   click="startCamera()"/>
+
+		<s:Button id="takePictureBtn"
+							   includeIn="camera"
+							   width="50%"
+							   styleName="takePictureButton"
+							   toolTip="Take Picture"
+							   click="takePicture_click()"/>
+
+		<s:Button id="cancelBtn"
+							   includeIn="camera"
+							   width="50%"
+							   x="{pictureWidth/2}"
+							   styleName="cancelButton"
+							   toolTip="Cancel"
+							   click="cancel_click()"/>
+	</s:Group>
+
+</s:SkinnableContainer>

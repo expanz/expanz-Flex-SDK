@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<componentPackage>
+	<component id="TextInputEx"			class="com.expanz.controls.TextInputEx" />
+	<component id="LabelEx"				class="com.expanz.controls.LabelEx" />
+	<component id="FormItemEx"			class="com.expanz.controls.FormItemEx" />
+	<component id="ButtonEx"			class="com.expanz.controls.buttons.ButtonEx" />
+	<component id="RefreshButton"		class="com.expanz.controls.buttons.RefreshButton" />
+	<component id="SaveButton"			class="com.expanz.controls.buttons.SaveButton" />
+	<component id="DeleteButton"		class="com.expanz.controls.buttons.DeleteButton" />
+	<component id="CloseButton"			class="com.expanz.controls.buttons.CloseButton" />
+	<component id="ContextMenuButton"	class="com.expanz.controls.buttons.ContextMenuButton" />
+	<component id="CanvasEx"			class="com.expanz.controls.halo.CanvasEx" />
+	<component id="WindowEx"			class="com.expanz.activitycontainers.WindowEx" />
+	<component id="GroupEx"				class="com.expanz.activitycontainers.GroupEx" />
+	<component id="ListEx"				class="com.expanz.controls.ListEx" />
+	<component id="DataGridEx"			class="com.expanz.controls.DataGridEx" />
+	<component id="DataGridExHalo"		class="com.expanz.controls.halo.DataGridEx" />
+	<component id="LoginFormEx"			class="com.expanz.forms.LoginFormEx" />
+	<component id="SearchInputEx"		class="com.expanz.controls.SearchInputEx" />
+	<component id="DateFieldEx"			class="com.expanz.controls.halo.DateFieldEx" />
+	<component id="ImageBrowserPreviewUpload"	class="com.expanz.controls.halo.ImageBrowserPreviewUpload" />
+	<component id="MenuBarEx"			class="com.expanz.controls.halo.MenuBarEx" />
+	<component id="TabNavigatorEx"		class="com.expanz.controls.halo.TabNavigatorEx" />
+	<component id="MessagePanelText"	class="com.expanz.controls.halo.MessagePanelText" />
+	<component id="ExpanzThinRIA"		class="com.expanz.ExpanzThinRIA" />
+	<component id="FormMappings"		class="com.expanz.FormMappings" />
+	<component id="Activity"			class="com.expanz.Activity" />
+	
+</componentPackage>

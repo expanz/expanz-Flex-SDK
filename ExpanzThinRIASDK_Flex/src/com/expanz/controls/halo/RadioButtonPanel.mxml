@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
+	creationComplete="onCreationComplete()"
+	implements="com.expanz.interfaces.IServerBoundControl, com.expanz.interfaces.IEditableControl">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.expanz.*;
+			import com.expanz.constants.MessageSchemaAttributes;
+			
+			import flash.events.*;
+			
+			import mx.controls.*;
+			import mx.events.FlexEvent;
+		private var harness:ControlHarness;
+		private var myRadioButtons:Dictionary;
+		private var myReverseLookup:Dictionary;
+		private function onCreationComplete():void
+		{
+			harness=new ControlHarness(this);
+		}
+		public function get fieldId():String
+		{
+			return MessageSchemaAttributes.makeServerName(this.name);
+		}
+		private function onClick(e:Event):void
+		{
+			var rb:RadioButton = e.target as RadioButton;
+			var val:String=myRadioButtons[rb];
+			var delta:XML = harness.DeltaElement;
+			delta.@[MessageSchemaAttributes.IDAttrib]= fieldId;
+			delta.@[MessageSchemaAttributes.Value]=val;
+			harness.sendXml(delta);
+		}
+		public function publishXml(data:XML):void
+		{
+			myRadioButtons = new Dictionary();
+			myReverseLookup = new Dictionary();
+			var COLUMNS:XML;
+			var ROWS:XML;
+			var child:XML=data.firstChild;
+			while(child!=null)
+			{
+				if(child.localName()=="Columns") COLUMNS=child;
+				else if(child.localName()=="Rows") ROWS=child;
+				child=child.nextSibling;
+			}
+			if(ROWS==null || COLUMNS==null) return;
+			var displayColumn:String;
+			child=COLUMNS.firstChild;
+			while(displayColumn==null && child!=null)
+			{
+				if(child.@["width"]!=null)
+				{
+					var width:int=parseInt(child.@["width"]);
+					if(width>0) displayColumn=child.@[MessageSchemaAttributes.IDAttrib];
+				}
+				child=child.nextSibling;
+			}
+			if(displayColumn==null) return;
+			child=ROWS.firstChild;
+			while(child!=null)
+			{
+				var id:String=child.@[MessageSchemaAttributes.IDAttrib];
+				var hint:String=child.@[MessageSchemaAttributes.Hint];
+				var text:String=null;
+				var cell:XML=child.children()[0];
+				while(text==null && cell!=null)
+				{
+					if(cell.localName()=="Cell"+displayColumn)
+						text=cell.firstChild.nodeValue;
+					cell=cell.nextSibling;
+				}
+				var rb:RadioButton=new RadioButton();
+				rb.label=text;
+				rb.data=id;
+				rb.addEventListener(Event.CHANGE,onClick);
+				if(hint!=null && hint.length>0) rb.toolTip=hint;
+				ContentPanel.addChild(rb);
+				child=child.nextSibling;
+			}
+		}
+		public function setControlVisible(visible:Boolean):void
+		{
+			this.visible=visible;
+		}
+			
+		public function setEditable(e:Boolean):void
+		{
+			this.enabled=e;
+		}
+		public function setLabel(label:String):void
+		{
+			this.title = label;
+		}
+		public function setHint(hint:String):void
+		{
+			//pbHelp.ToolTip = hint + "  Click for more";
+		}
+		public function setNull():void
+		{
+			var i:int=0;
+			for (var id:String in myRadioButtons)
+			{
+				var rb:RadioButton = myRadioButtons[id] as RadioButton;
+				rb.selected=false;
+			}
+		}
+		public function setValue(text:String):void
+		{
+			if(myReverseLookup == null) return;//fixme alert
+			if(myReverseLookup[text]!=null)
+			{
+				var rb:RadioButton = myReverseLookup[text] as RadioButton;
+				rb.selected=true;
+			}
+		}
+		public function get DeltaXml():XML{return null;}
+		]]>
+	</mx:Script>
+	<mx:Tile id="ContentPanel">
+	</mx:Tile>
+</mx:Panel>

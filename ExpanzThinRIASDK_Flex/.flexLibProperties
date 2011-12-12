@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="1">
+  <includeClasses>
+    <classEntry path="com.expanz.AbstractHarnessBase"/>
+    <classEntry path="com.expanz.Activity"/>
+    <classEntry path="com.expanz.ActivityHarness"/>
+    <classEntry path="com.expanz.ControlHarness"/>
+    <classEntry path="com.expanz.ExpanzThinRIA"/>
+    <classEntry path="com.expanz.FormDefinition"/>
+    <classEntry path="com.expanz.FormMappings"/>
+    <classEntry path="com.expanz.activitycontainers.BorderContainerEx"/>
+    <classEntry path="com.expanz.activitycontainers.GroupEx"/>
+    <classEntry path="com.expanz.activitycontainers.SkinnableComponentEx"/>
+    <classEntry path="com.expanz.activitycontainers.SkinnableContainerEx"/>
+    <classEntry path="com.expanz.activitycontainers.WindowEx"/>
+    <classEntry path="com.expanz.activitycontainers.windowExClasses.ResizableTitleWindow"/>
+    <classEntry path="com.expanz.constants.MessageSchemaAttributes"/>
+    <classEntry path="com.expanz.constants.MessageSchemaElements"/>
+    <classEntry path="com.expanz.constants.ThinRIASDKConstants"/>
+    <classEntry path="com.expanz.constants.UserType"/>
+    <classEntry path="com.expanz.controls.CheckBoxEx"/>
+    <classEntry path="com.expanz.controls.ComboBoxEx"/>
+    <classEntry path="com.expanz.controls.DataGridEx"/>
+    <classEntry path="com.expanz.controls.DropDownListEx"/>
+    <classEntry path="com.expanz.controls.LabelEx"/>
+    <classEntry path="com.expanz.controls.ListEx"/>
+    <classEntry path="com.expanz.controls.ProcessMapNavigationMenuList"/>
+    <classEntry path="com.expanz.controls.RadioButtonEx"/>
+    <classEntry path="com.expanz.controls.RichTextEx"/>
+    <classEntry path="com.expanz.controls.SearchInputEx"/>
+    <classEntry path="com.expanz.controls.TextInputEx"/>
+    <classEntry path="com.expanz.controls.buttons.ButtonEx"/>
+    <classEntry path="com.expanz.controls.buttons.ClientMessageButton"/>
+    <classEntry path="com.expanz.controls.buttons.CloseButton"/>
+    <classEntry path="com.expanz.controls.buttons.ContextMenuButton"/>
+    <classEntry path="com.expanz.controls.buttons.DeleteButton"/>
+    <classEntry path="com.expanz.controls.buttons.RefreshButton"/>
+    <classEntry path="com.expanz.controls.buttons.SaveButton"/>
+    <classEntry path="com.expanz.controls.gridClasses.GridColumnEx"/>
+    <classEntry path="com.expanz.controls.halo.ActivityTabPageEx"/>
+    <classEntry path="com.expanz.controls.halo.CanvasEx"/>
+    <classEntry path="com.expanz.controls.halo.DataGridEx"/>
+    <classEntry path="com.expanz.controls.halo.DateFieldEx"/>
+    <classEntry path="com.expanz.controls.halo.EnumCollectionPanel"/>
+    <classEntry path="com.expanz.controls.halo.FilterControl"/>
+    <classEntry path="com.expanz.controls.halo.ImageBrowserPreviewUpload"/>
+    <classEntry path="com.expanz.controls.halo.ImageEx"/>
+    <classEntry path="com.expanz.controls.halo.LinkButtonEx"/>
+    <classEntry path="com.expanz.controls.halo.ListEx"/>
+    <classEntry path="com.expanz.controls.halo.ListItemEx"/>
+    <classEntry path="com.expanz.controls.halo.MenuBarEx"/>
+    <classEntry path="com.expanz.controls.halo.MessagePanelText"/>
+    <classEntry path="com.expanz.controls.halo.Picklist"/>
+    <classEntry path="com.expanz.controls.halo.PictureInput"/>
+    <classEntry path="com.expanz.controls.halo.RadioButtonPanel"/>
+    <classEntry path="com.expanz.controls.halo.SearchFieldEx"/>
+    <classEntry path="com.expanz.controls.halo.ServerVariable"/>
+    <classEntry path="com.expanz.controls.halo.SimpleGridEx"/>
+    <classEntry path="com.expanz.controls.halo.SizeChooserElement"/>
+    <classEntry path="com.expanz.controls.halo.SizeChooserEx"/>
+    <classEntry path="com.expanz.controls.halo.StatusImageEx"/>
+    <classEntry path="com.expanz.controls.halo.StatusPanel"/>
+    <classEntry path="com.expanz.controls.halo.TabActivityContainerCanvas"/>
+    <classEntry path="com.expanz.controls.halo.TabButtonEx"/>
+    <classEntry path="com.expanz.controls.halo.TabNavigatorEx"/>
+    <classEntry path="com.expanz.controls.halo.TextAreaEx"/>
+    <classEntry path="com.expanz.controls.halo.TileListEx"/>
+    <classEntry path="com.expanz.controls.halo.TreeEx"/>
+    <classEntry path="com.expanz.controls.halo.ViewStackEx"/>
+    <classEntry path="com.expanz.controls.halo.Wizard"/>
+    <classEntry path="com.expanz.controls.halo.dataGridClasses.DataGridColumnEx"/>
+    <classEntry path="com.expanz.controls.halo.dataGridClasses.GridColumnEx"/>
+    <classEntry path="com.expanz.controls.halo.dataGridClasses.renderers.CheckBoxRenderer"/>
+    <classEntry path="com.expanz.controls.halo.dataGridClasses.renderers.ItemEditor"/>
+    <classEntry path="com.expanz.controls.halo.dataGridClasses.renderers.RendererFactory"/>
+    <classEntry path="com.expanz.controls.halo.tabBarClasses.ExtendedPopUpMenuButton"/>
+    <classEntry path="com.expanz.controls.halo.tabBarClasses.ExtendedTab"/>
+    <classEntry path="com.expanz.controls.halo.tabBarClasses.ExtendedTabBar"/>
+    <classEntry path="com.expanz.controls.halo.tabBarClasses.ExtendedTabDropIndicator"/>
+    <classEntry path="com.expanz.controls.halo.tabBarClasses.ExtendedTabListToolButtonSkin"/>
+    <classEntry path="com.expanz.controls.halo.treeClasses.TreeBranch"/>
+    <classEntry path="com.expanz.controls.halo.treeClasses.TreeDataDescriptor"/>
+    <classEntry path="com.expanz.controls.halo.treeClasses.TreeViewSelector"/>
+    <classEntry path="com.expanz.events.ItemEvent"/>
+    <classEntry path="com.expanz.events.SessionEvent"/>
+    <classEntry path="com.expanz.events.SystemPreferencesEvent"/>
+    <classEntry path="com.expanz.forms.ClientMessageWindow"/>
+    <classEntry path="com.expanz.forms.LoginFormEx"/>
+    <classEntry path="com.expanz.forms.SystemPreferencesForm"/>
+    <classEntry path="com.expanz.forms.TrafficDebugForm"/>
+    <classEntry path="com.expanz.interfaces.IActivityContainer"/>
+    <classEntry path="com.expanz.interfaces.IActivityTabStackPage"/>
+    <classEntry path="com.expanz.interfaces.IContextMenuPublisher"/>
+    <classEntry path="com.expanz.interfaces.ICustomContentPublisher"/>
+    <classEntry path="com.expanz.interfaces.ICustomSchemaPublisher"/>
+    <classEntry path="com.expanz.interfaces.IDataControl"/>
+    <classEntry path="com.expanz.interfaces.IEditableControl"/>
+    <classEntry path="com.expanz.interfaces.IFieldErrorMessage"/>
+    <classEntry path="com.expanz.interfaces.IGraphControl"/>
+    <classEntry path="com.expanz.interfaces.IMediaControl"/>
+    <classEntry path="com.expanz.interfaces.IMessagePanel"/>
+    <classEntry path="com.expanz.interfaces.IProcessAreaNavigationMenu"/>
+    <classEntry path="com.expanz.interfaces.IServerBoundControl"/>
+    <classEntry path="com.expanz.interfaces.IServerBoundControlContainer"/>
+    <classEntry path="com.expanz.interfaces.IServerMethodCaller"/>
+    <classEntry path="com.expanz.logging.LogUtil"/>
+    <classEntry path="com.expanz.model.AppFrameworkModel"/>
+    <classEntry path="com.expanz.model.SystemPreferences"/>
+    <classEntry path="com.expanz.skins.BorderlessListSkin"/>
+    <classEntry path="com.expanz.skins.LoginFormExSkin"/>
+    <classEntry path="com.expanz.skins.ProcessMapListRepeatedItemSkin"/>
+    <classEntry path="com.expanz.skins.ProcessMapNavigationMenuListSkin"/>
+    <classEntry path="com.expanz.skins.ResizableTitleWindowSkin"/>
+    <classEntry path="com.expanz.skins.SearchInputExSkin"/>
+    <classEntry path="com.expanz.utils.ProcessAreaNavigationMenuHelper"/>
+    <classEntry path="com.expanz.utils.Util"/>
+    <classEntry path="com.expanz.vo.ActivityVO"/>
+    <classEntry path="com.expanz.vo.common.SystemPreferencesVO"/>
+    <classEntry path="com.expanz.controls.MessagePanelTextArea"/>
+  </includeClasses>
+  <includeResources>
+    <resourceEntry destPath="design.xml" sourcePath="design.xml"/>
+  </includeResources>
+  <namespaceManifests>
+    <namespaceManifestEntry manifest="expanz-manifest.xml" namespace="library://ns.expanz.com/flex/2011"/>
+  </namespaceManifests>
+</flexLibProperties>

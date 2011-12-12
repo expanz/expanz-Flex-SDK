@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<windowExClasses:ResizableTitleWindow 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns:controls="com.expanz.controls.*"
+	creationComplete="creationCompleteHandler(event)"
+	close="PopUpManager.removePopUp(this);"
+	keyDown="this_keyDownHandler(event)"
+	title="Select {data.@contextObject}"
+	skinClass="com.expanz.skins.ResizableTitleWindowSkin"
+	implements="mx.core.IDataRenderer" xmlns:halo="com.expanz.controls.halo.*" xmlns:activitycontainers="com.expanz.activitycontainers.*" xmlns:windowExClasses="com.expanz.activitycontainers.windowExClasses.*" 
+	>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.expanz.ActivityHarness;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.IDataRenderer;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.managers.PopUpManager;
+			
+			public var harness:ActivityHarness;
+			private var _data:Object;
+			
+			private function contextSelected():void
+			{
+				var row:XML = (grid.selectedItem as XML);
+				var co:String = (this.data as XML).@contextObject;
+				
+				var ac:ArrayCollection = new ArrayCollection();
+				ac.addItem(<Context contextObject={co} id={row.@id} Type={row.@Type}/>);
+				ac.addItem(<Method contextObject={co} name="SetIdFromContext"/>);
+				harness.ExecList(ac);
+				
+				PopUpManager.removePopUp(this);
+			}
+			
+			protected function grid_keyDownHandler(event:KeyboardEvent):void
+			{
+				if (event.keyCode == Keyboard.ENTER)
+				{
+					contextSelected();
+				}
+			}
+			
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				focusManager.setFocus(grid);
+			}
+			
+			
+			protected function this_keyDownHandler(event:KeyboardEvent):void
+			{
+				if (event.keyCode == Keyboard.ESCAPE)
+				{
+					PopUpManager.removePopUp(this);
+				}
+			}
+			
+			[Bindable]
+			public function get data():Object
+			{
+				return _data;
+			}
+			
+			public function set data(value:Object):void
+			{
+				_data = value;				
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<halo:DataGridEx id="grid" 
+						 top="0"
+						 left="0"
+						 right="10"
+						 bottom="10"
+						 creationComplete="(event.target as DataGridEx).publishData(data as XML)" 
+						 itemClick="contextSelected()" 
+						 keyDown="grid_keyDownHandler(event)" />		
+	
+</windowExClasses:ResizableTitleWindow>

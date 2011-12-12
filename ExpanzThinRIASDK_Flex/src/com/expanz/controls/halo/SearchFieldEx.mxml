@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox creationComplete="creationCompleteHandler(event)"
+		 minWidth="100"
+		 horizontalGap="0"
+		 verticalAlign="middle"
+		 focusIn="this_focusInHandler(event)"
+		 focusOut="this_focusOutHandler(event)"
+		 implements="com.expanz.interfaces.IEditableControl, com.expanz.interfaces.IServerBoundControl"
+		 horizontalScrollPolicy="off" verticalScrollPolicy="off"
+		 xmlns:mx="http://www.adobe.com/2006/mxml">
+
+	<mx:Script>
+		<![CDATA[
+			import com.expanz.constants.MessageSchemaAttributes;
+			import com.expanz.ControlHarness;
+			import com.expanz.utils.Util;
+			import com.expanz.interfaces.IEditableControl;
+			import com.expanz.interfaces.IServerBoundControl;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.events.ItemClickEvent;
+
+			private var harness:ControlHarness;
+			private var focusValue:String;
+			
+			[Inspectable(category="Expanz")] 
+			public var FieldLabel:String;
+			
+			[Inspectable(category="Expanz")]
+			public var referenceObject:String;
+			
+			[Inspectable(category="Expanz")]
+			public var promptText:String="search";
+			
+			[Inspectable(category="Expanz")]
+			public var methodName:String;
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				harness = new ControlHarness(this);
+			}
+
+			protected function searchButtons_itemClickHandler(event:ItemClickEvent):void
+			{
+				var delta:XML = DeltaXml;
+				var menuAction:XML = <MenuAction/>;
+
+				if (referenceObject && referenceObject.length > 0)
+				{
+					menuAction.@referenceObject = referenceObject;
+				}
+
+				delta.@bypassAKProcessing = "1";
+
+				menuAction.@action = event.item.action;
+
+				harness.sendXmlList(new ArrayCollection([delta, menuAction]));
+			}
+
+			private function this_focusInHandler(event:FocusEvent):void
+			{
+				if (textField.contains(event.target as DisplayObject))
+				{
+					focusValue = textField.text;
+				}
+			}
+
+			private function this_focusOutHandler(event:FocusEvent):void
+			{
+				if (textField.contains(event.target as DisplayObject) && event.relatedObject != searchButtons && textField.editable && focusValue != textField.text)
+				{
+					harness.sendXml(DeltaXml);
+				}
+			}
+
+			public function get DeltaXml():XML
+			{
+				var delta:XML = harness.DeltaElement;
+				delta.@[MessageSchemaAttributes.IDAttrib] = fieldId;
+				setDeltaText(delta);
+				return delta;
+			}
+
+			protected virtual function setDeltaText(delta:XML):void
+			{
+				delta.@[MessageSchemaAttributes.Value] = textField.text;
+			}
+
+			public function setEditable(editable:Boolean):void
+			{
+				textField.editable = editable;
+			}
+
+			public function setNull():void
+			{
+				textField.text = "";
+			}
+
+			public function setValue(text:String):void
+			{
+				textField.text = text;
+			}
+
+			public function setLabel(label:String):void
+			{
+			}
+
+			public function setHint(hint:String):void
+			{
+				textField.toolTip = hint;
+			}
+
+			public function publishXml(xml:XML):void
+			{
+				if (xml[MessageSchemaAttributes.PublishFieldMaxLength] != null)
+				{
+					try
+					{
+						var maxLength:int = parseInt(xml[MessageSchemaAttributes.PublishFieldMaxLength]);
+						textField.maxChars = maxLength;
+					}
+					catch (e:Error)
+					{
+
+					}
+				}
+			}
+
+			//------------------------------------------------------
+			// IServerBoundControl Interface Implementation
+			//------------------------------------------------------
+			include "../../includes/IServerBoundControlImpl.as";
+			
+		]]>
+	</mx:Script>
+	<mx:TextInput id="textField" width="100%"/>
+	<mx:ButtonBar id="searchButtons" itemClick="searchButtons_itemClickHandler(event)">
+		<mx:dataProvider>
+			<mx:Array>
+				<mx:Object>
+					<mx:label>?</mx:label>
+					<mx:toolTip>Quick Search</mx:toolTip>
+					<mx:action>TEXTMATCH</mx:action>
+				</mx:Object>
+				<mx:Object>
+					<mx:label>??</mx:label>
+					<mx:toolTip>Search All</mx:toolTip>
+					<mx:action>TEXTMATCHALL</mx:action>
+				</mx:Object>
+			</mx:Array>
+		</mx:dataProvider>
+	</mx:ButtonBar>
+</mx:HBox>

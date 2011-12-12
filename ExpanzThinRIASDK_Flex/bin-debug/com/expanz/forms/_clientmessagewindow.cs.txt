@@ -1,0 +1,434 @@
+using System;
+using System.Drawing;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Xml;
+using ESA.Utility;
+using ESA.WinFormsClient.Controls;
+
+namespace ESA.WinFormsClient
+{
+	public class ClientMessageWindow : BaseForm
+	{
+		#region Properties and Variables
+
+		private System.Windows.Forms.Panel buttonPanel;
+		private System.Windows.Forms.Panel optionPanel;
+		private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ListBox listOptions;
+
+		private ContainerWindow myContainer;
+		private Dictionary<string,ClientMessageButton> clientMessageButtons;
+		private Dictionary<string,RadioButton> clientRadioButtons;
+		private Dictionary<string,string> clientOptions;
+		private string myOptionType;
+        private TextBox lblText;
+		private TextBox Header;
+		private XmlDocument resultDoc;
+
+		#endregion
+
+		#region Constructors
+
+		public ClientMessageWindow(ContainerWindow myParent, XmlElement myXml,XmlDocument userDoc) : base(myParent.Host)
+		{
+			InitializeComponent();
+			myContainer = myParent;
+			resultDoc=userDoc;
+			clientMessageButtons = new Dictionary<string,ClientMessageButton>();
+			clientRadioButtons = new Dictionary<string,RadioButton>();
+			clientOptions = new Dictionary<string,string>();
+			publishXml(myXml);
+		}
+
+		#endregion
+
+		#region Publish XML
+
+		private void publishXml(XmlElement theElt)
+		{
+			this.Text = theElt.GetAttribute(Common.UIMessage.Title);
+			this.lblText.Text = theElt.GetAttribute(Common.UIMessage.text);
+			this.Header.Text = theElt.GetAttribute("header");
+
+			XmlElement theChildElt = (XmlElement)theElt.FirstChild;
+			while (theChildElt != null)
+			{
+				// ACTIONS - create a button for each one
+				if (theChildElt.Name == Common.UIMessage.Actions)
+				{
+					this.buttonPanel.SuspendLayout();
+					this.SuspendLayout();
+
+					CreateActionButtons(theChildElt);
+
+					this.buttonPanel.ResumeLayout(false);
+					this.ResumeLayout(false);
+				}
+
+				// OPTIONS - either create a list box entry or a radio button for each
+				else if (theChildElt.Name == Common.UIMessage.Options)
+				{
+					this.optionPanel.SuspendLayout();
+					this.SuspendLayout();
+
+					if (theChildElt.GetAttribute(Common.UIMessage.type) == Common.UIMessage.typeList)
+					{
+						myOptionType = Common.UIMessage.typeList;
+						CreateListOptions(theChildElt);
+					}
+					else
+					{
+						myOptionType = Common.UIMessage.typeRadioButton;
+						this.listOptions.Visible = false;
+						CreateRadioButtonOptions(theChildElt);
+					}
+
+					this.optionPanel.ResumeLayout(false);
+					this.ResumeLayout(false);
+				}
+				theChildElt = (XmlElement)theChildElt.NextSibling;
+			}
+
+			if (clientOptions.Count == 0)
+			{
+				this.optionPanel.Visible = false;
+				this.Height = this.Height - this.optionPanel.Height;
+			}
+		}
+
+		private void CreateActionButtons(XmlNode theActions)
+		{
+			// Set size of form
+			int theSize = (80 * theActions.ChildNodes.Count) + 12;
+			if (theSize < this.Width)
+				theSize = this.Width;
+			this.Width = theSize;
+
+			// Determine pos of first button
+			int startPos = (theSize - 8) - (80 * theActions.ChildNodes.Count);
+
+			XmlElement buttonElt = (XmlElement)theActions.FirstChild;
+			int j = 0;
+			while (buttonElt != null)
+			{
+				string label = buttonElt.GetAttribute(Common.UIMessage.label);
+				string request = "";
+				string response = "";
+				if (buttonElt.ChildNodes.Count > 0)
+				{
+					if (((XmlElement)buttonElt.FirstChild).Name == Common.UIMessage.Request)
+					{
+						request = ((XmlElement)buttonElt.FirstChild).InnerXml;
+					}
+					else if (((XmlElement)buttonElt.FirstChild).Name == Common.UIMessage.Response)
+					{
+						response = ((XmlElement)buttonElt.FirstChild).InnerXml;
+					}
+				}
+
+				ClientMessageButton theButton = new ClientMessageButton();
+				theButton.ButtonRequest = request;
+				theButton.ButtonResponse = response;
+				theButton.Name = "Button" + j.ToString();
+				theButton.TabIndex = 0;
+				theButton.Text = label;
+				if (label.ToUpper() == "OK") this.AcceptButton = theButton;
+				else if (label.ToUpper() == "CANCEL") this.CancelButton = theButton;
+				theButton.RealForm = this;
+				clientMessageButtons.Add(theButton.Name, theButton);
+				this.buttonPanel.Controls.Add(theButton);
+				if (Common.boolValue(buttonElt.GetAttribute("default")))
+					this.AcceptButton = theButton;
+				else if (Common.boolValue(buttonElt.GetAttribute("cancel")))
+					this.CancelButton = theButton;
+				theButton.Location = new Point(startPos + (80 * j), 12);
+
+				buttonElt = (XmlElement)buttonElt.NextSibling;
+				j++;
+			}
+		}
+
+		public void CreateListOptions(XmlElement theOptions)
+		{
+			int lbHeight = (13 * theOptions.ChildNodes.Count) + 4;
+			this.Height = this.Height - this.listOptions.Height + lbHeight;
+			this.optionPanel.Height = this.optionPanel.Height - this.listOptions.Height + lbHeight;
+			this.listOptions.Height = lbHeight;
+
+			XmlElement theOption = (XmlElement)theOptions.FirstChild;
+			while (theOption != null)
+			{
+				string label = theOption.GetAttribute(Common.UIMessage.label);
+				string theXml = theOption.InnerXml;
+				clientOptions.Add(label, theXml);
+				this.listOptions.Items.Add(label);
+
+				theOption = (XmlElement)theOption.NextSibling;
+			}
+
+			if (this.listOptions.Items.Count > 0)
+				this.listOptions.SelectedItem = this.listOptions.Items[0];
+		}
+
+		public void CreateRadioButtonOptions(XmlElement theOptions)
+		{
+			int panelHeight = (20 * theOptions.ChildNodes.Count) + 12;
+			this.Height = this.Height - this.optionPanel.Height + panelHeight;
+			this.optionPanel.Height = panelHeight;
+
+			XmlElement theOption = (XmlElement)theOptions.FirstChild;
+			int j = 0;
+			while (theOption != null)
+			{
+				string label = theOption.GetAttribute(Common.UIMessage.label);
+				string theXml = theOption.InnerXml;
+
+				// Create a radio button
+				RadioButton theButton = new RadioButton();
+				theButton.Name = "RadioButton" + j.ToString();
+				theButton.TabIndex = j;
+				theButton.Text = label;
+				clientOptions.Add(theButton.Name, theXml);
+				clientRadioButtons.Add(theButton.Name, theButton);
+				this.optionPanel.Controls.Add(theButton);
+				theButton.Location = new Point(34, 8 + (20 * j));
+
+				theOption = (XmlElement)theOption.NextSibling;
+				j++;
+			}
+
+            if (this.clientRadioButtons.Count > 0)
+            {
+                clientRadioButtons["RadioButton0"].Checked = true;
+            }
+		}
+
+		#endregion
+
+		#region Button Click event
+
+        public void MessageButtonClick(ClientMessageButton sender, System.EventArgs e)
+        {
+            if (sender == null)
+                return;
+
+            try
+            {
+                if (sender.ButtonResponse.Length > 0)
+                {
+                    resultDoc.LoadXml("<ESA>" + getRealRequestResponse(sender.ButtonResponse)
+                        + "</ESA>");
+                    this.DialogResult = DialogResult.No;
+                }
+                else if (sender.ButtonRequest.Length > 0)
+                {
+                    resultDoc.LoadXml("<ESA>" + getRealRequestResponse(sender.ButtonRequest)
+                        + "</ESA>");
+                    this.DialogResult = DialogResult.Yes;
+                }
+                else
+                    this.DialogResult = DialogResult.Cancel;
+            }
+            catch (Exception ex) { AppHomeBase.debugException(ex); }
+            finally { this.Close(); }
+        }
+
+		private string getRealRequestResponse(string origVal)
+		{
+			string returnVal = origVal;
+			if (origVal == "selectedOption")
+			{
+				// Determine which option is selected
+				if (myOptionType == Common.UIMessage.typeList)
+				{
+					string selectedOption = this.listOptions.SelectedItem.ToString();
+					if (clientOptions.ContainsKey(selectedOption))
+						returnVal = clientOptions[selectedOption].ToString();
+				}
+				else if (myOptionType == Common.UIMessage.typeRadioButton)
+				{
+					for (int i = 0; i < clientRadioButtons.Count; i++)
+					{
+                        if (((RadioButton)clientRadioButtons["RadioButton" + i.ToString()]).Checked)
+                        {
+                            returnVal = clientOptions["RadioButton" + i.ToString()].ToString();
+                            break;
+                        }
+					}
+				}
+			}
+			return returnVal;
+		}
+
+		#endregion
+
+		#region Windows Form Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientMessageWindow));
+			this.buttonPanel = new System.Windows.Forms.Panel();
+			this.optionPanel = new System.Windows.Forms.Panel();
+			this.listOptions = new System.Windows.Forms.ListBox();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.Header = new System.Windows.Forms.TextBox();
+			this.lblText = new System.Windows.Forms.TextBox();
+			this.optionPanel.SuspendLayout();
+			this.panel2.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// buttonPanel
+			// 
+			this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.buttonPanel.Location = new System.Drawing.Point(0, 258);
+			this.buttonPanel.Name = "buttonPanel";
+			this.buttonPanel.Size = new System.Drawing.Size(376, 40);
+			this.buttonPanel.TabIndex = 0;
+			// 
+			// optionPanel
+			// 
+			this.optionPanel.Controls.Add(this.listOptions);
+			this.optionPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.optionPanel.Location = new System.Drawing.Point(0, 198);
+			this.optionPanel.Name = "optionPanel";
+			this.optionPanel.Size = new System.Drawing.Size(376, 60);
+			this.optionPanel.TabIndex = 4;
+			// 
+			// listOptions
+			// 
+			this.listOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.listOptions.Location = new System.Drawing.Point(28, 6);
+			this.listOptions.Name = "listOptions";
+			this.listOptions.Size = new System.Drawing.Size(318, 43);
+			this.listOptions.TabIndex = 0;
+			// 
+			// panel2
+			// 
+			this.panel2.Controls.Add(this.Header);
+			this.panel2.Controls.Add(this.lblText);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel2.Location = new System.Drawing.Point(0, 0);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(376, 198);
+			this.panel2.TabIndex = 5;
+			// 
+			// Header
+			// 
+			this.Header.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.Header.BackColor = System.Drawing.SystemColors.Control;
+			this.Header.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.Header.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Header.ForeColor = System.Drawing.Color.Tomato;
+			this.Header.Location = new System.Drawing.Point(24, 2);
+			this.Header.Multiline = true;
+			this.Header.Name = "Header";
+			this.Header.ReadOnly = true;
+			this.Header.Size = new System.Drawing.Size(326, 32);
+			this.Header.TabIndex = 2;
+			// 
+			// lblText
+			// 
+			this.lblText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lblText.BackColor = System.Drawing.SystemColors.Control;
+			this.lblText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.lblText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblText.Location = new System.Drawing.Point(26, 44);
+			this.lblText.Multiline = true;
+			this.lblText.Name = "lblText";
+			this.lblText.ReadOnly = true;
+			this.lblText.Size = new System.Drawing.Size(328, 138);
+			this.lblText.TabIndex = 1;
+			// 
+			// ClientMessageWindow
+			// 
+			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+			this.ClientSize = new System.Drawing.Size(376, 298);
+			this.Controls.Add(this.panel2);
+			this.Controls.Add(this.optionPanel);
+			this.Controls.Add(this.buttonPanel);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.MinimumSize = new System.Drawing.Size(200, 0);
+			this.Name = "ClientMessageWindow";
+			this.Text = "ClientMessageWindow";
+			this.optionPanel.ResumeLayout(false);
+			this.panel2.ResumeLayout(false);
+			this.panel2.PerformLayout();
+			this.ResumeLayout(false);
+
+		}
+		#endregion
+	}
+	public class ClientMessageButton : Button
+	{
+		//protected Color childColor = Color.FromArgb(((System.Byte)(200)), ((System.Byte)(210)), ((System.Byte)(210)));
+
+		#region Constructor functions
+
+		public ClientMessageButton(System.ComponentModel.IContainer container)
+		{
+			container.Add(this);
+			InitializeComponent();
+		}
+
+		public ClientMessageButton()
+		{
+			InitializeComponent();
+		}
+
+		private void InitializeComponent()
+		{
+			this.Click += new System.EventHandler(this.ClientMessageButton_Click);
+			ButtonRequest = "";
+			ButtonResponse = "";
+		}
+
+		#endregion
+		
+		#region Properties and Variables
+
+		private string buttonRequest;
+		public string ButtonRequest
+		{
+			get {return buttonRequest;}
+			set {buttonRequest = value;}
+		}
+
+		private string buttonResponse;
+		public string ButtonResponse
+		{
+			get {return buttonResponse;}
+			set {buttonResponse = value;}
+		}
+
+		private ClientMessageWindow realForm;
+		public ClientMessageWindow RealForm
+		{
+			get {return realForm;}
+			set {realForm = value;}
+		}
+
+		#endregion
+
+		#region Event functions
+
+		public virtual void ClientMessageButton_Click(object sender, System.EventArgs e)
+		{
+			if (RealForm != null)
+				RealForm.MessageButtonClick(this, e);
+		}
+
+		#endregion
+	}
+}

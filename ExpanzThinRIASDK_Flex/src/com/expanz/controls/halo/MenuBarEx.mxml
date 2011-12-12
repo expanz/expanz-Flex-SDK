@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:MenuBar xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			xmlns:s="library://ns.adobe.com/flex/spark" 
+			xmlns:mx="library://ns.adobe.com/flex/mx"
+			implements="com.expanz.interfaces.IProcessAreaNavigationMenu"
+			itemClick="menubar_itemClickHandler(event)"
+			click="menubar_itemClickHandler(event)"
+			creationComplete="menubar_creationCompleteHandler(event)"
+			visible="false"
+			>
+	<fx:Metadata>
+		[IconFile("Menubar.png")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.expanz.ExpanzThinRIA;
+			import com.expanz.events.ItemEvent;
+			import com.expanz.utils.ProcessAreaNavigationMenuHelper;
+			import com.expanz.vo.ActivityVO;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.core.IDataRenderer;
+			import mx.events.FlexEvent;
+			import mx.events.MenuEvent;
+			
+			//--------------------------------------------------------------------------
+			//  IProcessAreaNavigationMenu 
+			//--------------------------------------------------------------------------
+			public function loadMenu(menuXML:XML):void
+			{				
+				//FIXME: This needs to be refactored to be cleaner 
+				// 1. Serialize the XML to ActivityVO somewhere closer to the service result
+				// 2. Store the ActivityVO in a stateful model
+				// 3. Inject the model to anyone that wants to use it
+				// 4. Create skinable rendering components to render anyway they want
+				
+				var menuRoot:ActivityVO = new ActivityVO();
+				menuRoot.title = "Home";
+				menuRoot.children = new ArrayCollection();
+				ProcessAreaNavigationMenuHelper.processMenu(menuRoot.children, menuXML, false);
+				
+				var logout:ActivityVO = new ActivityVO();
+				logout.title = "Logout";
+				logout.name = "ReleaseSession";
+				
+				menuRoot.children.addItem(logout);
+				this.dataProvider = menuRoot.children;
+				
+				this.visible = true;
+			}
+			
+			public function setMenu(dp:ActivityVO):void
+			{
+				if (this.dataProvider == dp.children)
+				{
+					return;
+				}
+				
+				this.dataProvider = dp.children;
+			}
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Event Handlers
+			//
+			//--------------------------------------------------------------------------
+			
+			/**
+			 * Menu item click handler. 
+			 * 
+			 * Dispatches ItemEvent.ACTIVITY_SELECTED to ExpanzThinRIA to handle the Activity 
+			 * Creation.
+			 */
+			protected function menubar_itemClickHandler(event:Event):void
+			{
+				var activityVO:ActivityVO;
+				
+				if(event is MenuEvent && (event as MenuEvent).item)
+					activityVO = (event as MenuEvent).item as ActivityVO;
+				
+				if(event is MouseEvent && (event.target as IDataRenderer))
+					activityVO = event.target.data as ActivityVO;
+				
+				if (activityVO == null)
+				{
+					trace("Error: unexpected data type");
+					return;
+				}
+				
+				if (activityVO.name == "ReleaseSession")
+				{					
+					this.visible = false;					
+					ExpanzThinRIA.getInstance().logout();					
+					return;
+				}
+				
+				if (!activityVO.isCategory)
+				{
+					dispatchEvent(new ItemEvent(ItemEvent.ACTIVITY_SELECTED, activityVO, true));
+				}
+			}
+
+			/**
+			 * Add me to the ExpanzThinRIA Process Area Menu Register
+			 */
+			protected function menubar_creationCompleteHandler(event:FlexEvent):void
+			{
+				ExpanzThinRIA.getInstance().registerProcessAreaNavigationMenu(this);
+			}		
+			
+		]]>
+	</fx:Script>
+	
+</mx:MenuBar>

@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<design version="2">
+   <namespaces>
+     <namespace prefix="expanz" uri="library://ns.expanz.com/flex/2011"/>
+   </namespaces>
+
+   <categories> 		
+		<category id="expanzCategoryButtons" label="expanz Buttons" defaultExpand="true"/>
+	    <category id="expanzCategoryActivityContainers" label="expanz Activity Containers" defaultExpand="true"/>
+	    <category id="expanzCategoryDataControls" label="expanz Repeating Data Controls" defaultExpand="true"/>
+	    <category id="expanzCategorySparkControls" label="expanz Spark Controls" defaultExpand="true"/>
+	    <category id="expanzCategoryHaloControls" label="expanz MX Controls" defaultExpand="true"/>
+	    <category id="expanzCategoryFormComponents" label="expanz Form Components" defaultExpand="true"/>
+   </categories>
+
+   <components>
+   		
+   		<!--== EXPANZ BUTTONS ==============================================================-->
+
+		<component name="com.expanz.controls.buttons.ButtonEx" namespace="expanz" category="expanzCategoryButtons">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ButtonExtension"/> 
+			<defaultAttribute name="label" value="%Button.label.value"/>
+            <designSkinText attributeType="text" value="%Button.label.value" id="labelDisplay" hostComponentField="label" />          
+			<mxmlProperties>
+				<textfield id="fieldID" 	name="Field ID"/>
+				<textfield id="MethodName" 	name="Method Name"/>
+				<textfield id="ModelObject" name="Model Object"/>
+				<textfield id="ReferenceObject" name="Reference Object"/>
+				<textfield id="Activity" 	name="Activity"/>
+				<textfield id="ActivityStyle" name="Activity Style"/>
+				<textfield id="label" name="Label"/>
+                <assetfilepicker id="icon" name="Icon" type="image" excludeFromProjectType="mobile" />
+                <multiImage id="icon" name="Icon" type="image" includeInProjectType="mobile"/>           
+			</mxmlProperties> 
+		</component>
+		<component name="com.expanz.controls.buttons.SaveButton" namespace="expanz" category="expanzCategoryButtons">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ButtonExtension"/> 
+			<mxmlProperties use="com.expanz.controls.buttons.ButtonEx">
+			</mxmlProperties> 
+		</component>
+		<component name="com.expanz.controls.buttons.DeleteButton" namespace="expanz" category="expanzCategoryButtons">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ButtonExtension"/> 
+			<mxmlProperties use="com.expanz.controls.buttons.ButtonEx">
+			</mxmlProperties> 
+		</component>
+		<component name="com.expanz.controls.buttons.CloseButton" namespace="expanz" category="expanzCategoryButtons">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ButtonExtension"/> 
+			<mxmlProperties use="spark.components.Button">
+			</mxmlProperties> 
+		</component>
+		<component name="com.expanz.controls.buttons.RefreshButton" namespace="expanz" category="expanzCategoryButtons">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ButtonExtension"/> 
+			<mxmlProperties use="com.expanz.controls.buttons.ButtonEx">	
+				<textfield id="DataControl" name="Data Control Reference"/>
+				<textfield id="DataId" name="Data Control Id"/>
+			</mxmlProperties> 
+		</component>
+		<component name="com.expanz.controls.buttons.ContextMenuButton" namespace="expanz" category="expanzCategoryButtons">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ButtonExtension"/> 
+			<mxmlProperties use="com.expanz.controls.buttons.ButtonEx">
+			</mxmlProperties> 
+		</component>
+		
+   		<!--== EXPANZ ACTIVITY CONTAINERS ==============================================================-->
+		
+		<component name="com.expanz.controls.halo.CanvasEx" namespace="expanz" category="expanzCategoryActivityContainers">
+			<designExtension class="com.adobe.flexide.extensions.components.mx.containers.CanvasExtension"/> 
+			<mxmlProperties use="mx.components.Canvas" >
+				<textfield id="ActivityName" name="Activity Name"/>
+				<textfield id="ActivityStyle" name="Activity Style"/>
+				<combo id="defferedActivation" name="Deffered Activation"/>
+			</mxmlProperties>
+		</component>	
+					
+		<component name="com.expanz.activitycontainers.WindowEx" namespace="expanz" category="expanzCategoryActivityContainers">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.TitleWindowExtension"/> 
+			<mxmlProperties use="spark.components.TitleWindow" >
+				<textfield id="ActivityName" name="Activity Name"/>
+				<textfield id="ActivityStyle" name="Activity Style"/>
+				<combo id="defferedActivation" name="Deffered Activation"/>
+			</mxmlProperties>
+		</component>
+						
+		<component name="com.expanz.activitycontainers.GroupEx" namespace="expanz" category="expanzCategoryActivityContainers">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.GroupExtension"/> 
+			<mxmlProperties use="spark.components.Group" >
+				<textfield id="ActivityName" name="Activity Name"/>
+				<textfield id="ActivityStyle" name="Activity Style"/>
+				<combo id="defferedActivation" name="Deffered Activation"/>
+			</mxmlProperties>
+		</component>				
+		
+		<!--== EXPANZ SPARK CONTROLS ==============================================================-->
+			
+		<component name="com.expanz.controls.TextInputEx" namespace="expanz" category="expanzCategorySparkControls">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.TextInputExtension"/> 
+			<mxmlProperties>
+				<textfield id="fieldId" name="Field ID"/>
+				<textfield id="prompt" name="Prompt Text"/>
+				<textfield id="text" name="Text"/>
+			</mxmlProperties> 
+		</component>
+		
+		<component name="com.expanz.controls.LabelEx" namespace="expanz" category="expanzCategorySparkControls">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.LabelExtension"/> 
+			<mxmlProperties use="spark.components.Label" >
+				<textfield id="fieldId" name="Field ID"/>
+				<combo id="showDataValue" name="Show the Data value"/>
+			</mxmlProperties> 
+		</component>
+		
+		<component name="com.expanz.controls.FormItemEx" namespace="expanz" category="expanzCategorySparkControls" >
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.FormItemExtension"/> 
+			<mxmlProperties use="spark.components.FormItem" >
+				<textfield id="fieldId" name="Field ID"/>
+			</mxmlProperties> 
+		</component>
+		
+		<!--== EXPANZ DATACONTROLS CONTROLS ==============================================================-->
+		
+		<component name="com.expanz.controls.ListEx" displayName="ListEx (Spark)" namespace="expanz" category="expanzCategoryDataControls">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ListExtension"/> 
+			<mxmlProperties >
+				<textfield id="QueryID" name="QueryID"/>
+				<textfield id="PopulateMethod" name="PopulateMethod"/>
+				<textfield id="ModelObject" name="ModelObject"/>
+				<combo id="AutoPopulate" name="AutoPopulate"/>	
+				<rendererTextfield id="itemRenderer" name="Item Renderer"/>			
+			</mxmlProperties> 
+		</component>
+		
+		<component name="com.expanz.controls.DataGridEx" displayName="DataGridEx (Spark)"  namespace="expanz" category="expanzCategoryDataControls" excludeFromProjectType="mobile">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.DataGridExtension"/> 
+			<mxmlProperties>
+				<textfield id="QueryID" name="QueryID"/>
+				<textfield id="PopulateMethod" name="PopulateMethod"/>
+				<textfield id="ModelObject" name="ModelObject"/>
+				<combo id="AutoPopulate" name="AutoPopulate"/>				
+			</mxmlProperties>
+		</component>
+		
+		<component name="com.expanz.controls.halo.DataGridEx" displayName="DataGridEx (MX)" namespace="expanz" category="expanzCategoryDataControls" excludeFromProjectType="mobile">
+			<designExtension class="com.adobe.flexide.extensions.components.mx.components.DataGridExtension"/> 
+			<mxmlProperties >
+				<textfield id="QueryID" name="QueryID"/>
+				<textfield id="PopulateMethod" name="PopulateMethod"/>
+				<textfield id="ModelObject" name="ModelObject"/>
+				<combo id="AutoPopulate" name="AutoPopulate"/>				
+			</mxmlProperties>
+		</component>
+		
+		<!--== EXPANZ FORM COMPONENTS ==============================================================-->
+		
+		<component name="com.expanz.forms.LoginFormEx" namespace="expanz" category="expanzCategoryFormComponents">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.SkinnableContainerExtension"/> 
+			<mxmlProperties >
+				<textfield id="heading" name="Heading Text"/>
+				<checkbox id="clearUserNameOnLogout" name="Clear Username On Logout"/>
+				<defaultAttribute name="heading" value="Login"/>								
+			</mxmlProperties> 
+		</component>
+		
+		<!--== EXPANZ MX CONTROLS ==============================================================-->
+		
+		<component name="com.expanz.controls.halo.DateFieldEx" namespace="expanz" category="expanzCategoryHaloControls">
+			<designExtension class="com.adobe.flexide.extensions.components.mx.components.DateFieldExtension"/>
+			<mxmlProperties use="mx.components.DateField">
+				<textfield id="fieldId" name="Field ID"/>								
+			</mxmlProperties> 
+		</component>
+		
+		<component name="com.expanz.controls.halo.ImageBrowserPreviewUpload" namespace="expanz" category="expanzCategoryHaloControls">
+			<designExtension class="com.adobe.flexide.extensions.components.mx.components.CanvasExtension"/>
+			<defaultAttribute name="publishType" value="URL"/>
+			<defaultAttribute name="width" value="250"/>
+			<defaultAttribute name="height" value="300"/>
+			<mxmlProperties >
+				<textfield id="fieldId" name="Field ID"/>	
+				<combo id="publishType" name="Publish Type"/>							
+			</mxmlProperties>
+		</component>
+		
+		<component name="com.expanz.controls.halo.MenuBarEx" namespace="expanz" category="expanzCategoryHaloControls">
+			<designExtension class="com.adobe.flexide.extensions.components.mx.components.MenusExtension"/>
+			<mxmlProperties use="mx.components.MenuBar">								
+			</mxmlProperties> 
+		</component>
+		
+   </components>
+</design>

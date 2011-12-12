@@ -1,0 +1,40 @@
+/* CSS file 
+
+Expanz ThinRIA SDK CSS for Flex SDK 4.
+
+*/
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace forms "com.expanz.forms.*";
+@namespace controls "com.expanz.controls.*";
+@namespace activitycontainers "com.expanz.activitycontainers.*";
+@namespace windowExClasses "com.expanz.activitycontainers.windowExClasses.*";
+
+/*
+LoginFormEx default Skin Class for the Expanz ThinRIA SDK.
+You can create your own skinclass and override it in your application.
+*/
+forms|LoginFormEx
+{
+	skin-class: ClassReference("com.expanz.skins.LoginFormExSkin");
+}
+
+/*
+ResizableTitleWindow default Skin Class for the Expanz ThinRIA SDK.
+You can create your own skinclass and override it in your application. 
+*/
+windowExClasses|ResizableTitleWindow
+{
+	skin-class: ClassReference("com.expanz.skins.ResizableTitleWindowSkin");
+}
+
+controls|RadioButtonEx
+{
+	skin-class: ClassReference("spark.skins.spark.RadioButtonSkin");
+}
+
+controls|SearchInputEx
+{
+	skin-class: ClassReference("com.expanz.skins.SearchInputExSkin");
+}
+
