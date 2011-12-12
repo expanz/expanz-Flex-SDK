@@ -3,8 +3,6 @@ expanz Thin RIA SDK for Flex (Library)
 
 The expanz Thin RIA for Flex is a toolkit for developers to make it Web and Desktop apps using Adobe Flex.  
 
-The toolkit works in two ways – the toolkit can be used to access Windows Azure storage directly, or alternatively, can go through a proxy server.  The proxy server code is the same code as used in the WP7 toolkit for Windows Azure (found here) and negates the need for the developer to store the Azure storage credentials locally on the device.  If you are planning to test using the proxy server, you’ll need to download and deploy the services found in the [cloudreadypackages](https://github.com/microsoft-dpe/wa-toolkit-cloudreadypackages) here on GitHub.  
-
 The expanz Thin RIA for Flex SDK is made available as an open source product under the Apache License, Version 2.0.  
 
 ## Downloading the Library
@@ -45,7 +43,7 @@ Next we want to add the Model Object explorer to your Flash Perspective
 1. Under **expanz** select the **Model Object explorer**
 1. You should now see this View and be able to explore your app servers Activities and Model Objects Fields, Methods and Queiries
 1. You can simply drag and drop Fields, Methods and Queiries onto controls to bind them up to the server
-1. Voilà, you have working thin RIAs with no code! Bitchen!
+1. Voilà you have working thin RIAs with no code! Bitchen!
 
 Congratulations, you have just built your first expanz Thin RIA for Flex project!
 
@@ -53,7 +51,7 @@ You can now customize the look and feel or modify your applications fields and f
 
 Have a play with the expanz Thin RIA for Flex samples:
 
-    #https://github.com/expanz/expanz-Flex-Samples
+    https://github.com/expanz/expanz-Flex-Samples
     
 Please see the samples directory for details on utilizing the library.
 
