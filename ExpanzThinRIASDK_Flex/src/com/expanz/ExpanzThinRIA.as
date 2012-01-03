@@ -17,7 +17,6 @@ package com.expanz
 	import com.expanz.FormMappings;
 	import com.expanz.activitycontainers.WindowEx;
 	import com.expanz.constants.MessageSchemaAttributes;
-	import com.expanz.controls.halo.ActivityTabPageEx;
 	import com.expanz.controls.halo.CanvasEx;
 	import com.expanz.events.ItemEvent;
 	import com.expanz.events.SessionEvent;

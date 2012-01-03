@@ -37,7 +37,6 @@
     <classEntry path="com.expanz.controls.buttons.RefreshButton"/>
     <classEntry path="com.expanz.controls.buttons.SaveButton"/>
     <classEntry path="com.expanz.controls.gridClasses.GridColumnEx"/>
-    <classEntry path="com.expanz.controls.halo.ActivityTabPageEx"/>
     <classEntry path="com.expanz.controls.halo.CanvasEx"/>
     <classEntry path="com.expanz.controls.halo.DataGridEx"/>
     <classEntry path="com.expanz.controls.halo.DateFieldEx"/>
@@ -60,7 +59,6 @@
     <classEntry path="com.expanz.controls.halo.SizeChooserEx"/>
     <classEntry path="com.expanz.controls.halo.StatusImageEx"/>
     <classEntry path="com.expanz.controls.halo.StatusPanel"/>
-    <classEntry path="com.expanz.controls.halo.TabActivityContainerCanvas"/>
     <classEntry path="com.expanz.controls.halo.TabButtonEx"/>
     <classEntry path="com.expanz.controls.halo.TabNavigatorEx"/>
     <classEntry path="com.expanz.controls.halo.TextAreaEx"/>
@@ -117,6 +115,8 @@
     <classEntry path="com.expanz.vo.ActivityVO"/>
     <classEntry path="com.expanz.vo.common.SystemPreferencesVO"/>
     <classEntry path="com.expanz.controls.MessagePanelTextArea"/>
+    <classEntry path="com.expanz.Version"/>
+    <classEntry path="com.expanz.controls.ImageEx"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="design.xml" sourcePath="design.xml"/>

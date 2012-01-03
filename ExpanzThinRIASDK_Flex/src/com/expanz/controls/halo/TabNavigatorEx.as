@@ -6,6 +6,7 @@ package com.expanz.controls.halo
 	import com.expanz.interfaces.IActivityContainer;
 	
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
 	
@@ -167,19 +168,21 @@ package com.expanz.controls.halo
 			myPageCount=1;
 			addEventListener(Event.TAB_INDEX_CHANGE,onPageChange);
 		}
+		
 		private var closingTab:Boolean;
-		public function closeTab(ati:ActivityTabPageEx):void
+		
+		public function closeTab(ati:DisplayObjectContainer):void
 		{
 			if (myTabPageStack[ati]!=null) myTabPageStack[ati]=null;
 			closingTab = true;
-			if (ati.IsDynamic)
+			if ((ati as Object).IsDynamic)
 			{
 				this.removeChild(ati);
 			}
 			else
 			{
 				//Items.MoveCurrentToLast(); fixme
-				ati.visible=false;
+				(ati as Object).visible = false;
 			}
 			closingTab = false;
 			//now find the most recent active tab and set focus to it
@@ -199,7 +202,7 @@ package com.expanz.controls.halo
 			if (ti == null) SelectedItem = null; else SelectedItem = ti;
 			*/
 		}
-		public function addActivityTab(ati:ActivityTabPageEx):void
+		public function addActivityTab(ati:DisplayObjectContainer):void
 		{
 			addChild(ati);
 		//	SelectedItem = ati;
