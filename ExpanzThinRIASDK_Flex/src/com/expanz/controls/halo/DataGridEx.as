@@ -56,6 +56,12 @@ package com.expanz.controls.halo
 			_harness = value;
 		}
 		
+		
+		//------------------------------------------------------
+		// IDataControl Interface Implementation include
+		//------------------------------------------------------
+		include "../../includes/IDataControlImpl.as";
+		
 		[Bindable]
 		public var dataPublicationSource:XML;
 
@@ -185,15 +191,6 @@ package com.expanz.controls.halo
 			harness = new ControlHarness(this);
 		}
 
-		//		public function get fieldId():String
-		//		{
-		//			return this.name;
-		//		}
-		//		
-		//		public function setControlVisible(visible:Boolean):void
-		//		{
-		//			this.visible=visible;
-		//		}
 
 		public var lastColumn:DataGridColumn;
 
@@ -226,7 +223,7 @@ package com.expanz.controls.halo
 					
 					var col:DataGridColumnEx = new DataGridColumnEx();
 					col.column = colData;									
-					col.dataField = Util.formatColumnName(colData.@field);
+					col.dataField = Util.formatColumnName(colData);
 					col.headerText = colData.@label;
 					col.width = colData.@width;
 
@@ -258,89 +255,6 @@ package com.expanz.controls.halo
 			dataProvider = dataBindableXML;
 		}
 
-		public function get DataId():String
-		{
-			return this.id;
-		}
-
-		public function set DataId(value:String):void
-		{
-		}
-		private var queryId:String;
-
-		[Inspectable(category="expanz")]
-		public function get QueryID():String
-		{
-			return queryId;
-		}
-
-		public function set QueryID(value:String):void
-		{
-			queryId = value;
-		}
-		private var populateMethod:String;
-
-		[Inspectable(category="expanz")]
-		/**
-		 * 
-		 * Set to "ListMe" to have the DataGrid be populated with the containing activities Model Object
-		 * 
-		 * Internal: This could be done during the
-		 * @return 
-		 * 
-		 */
-		public function get PopulateMethod():String
-		{
-			if(!populateMethod || populateMethod == ""){
-				populateMethod = "ListMe";
-			}
-			return populateMethod;
-		}
-
-		public function set PopulateMethod(value:String):void
-		{
-			populateMethod = value;
-		}
-		private var modelObject:String;
-
-		[Inspectable(category="expanz")]
-		public function get ModelObject():String
-		{
-			return modelObject;
-		}
-		public function set ModelObject(value:String):void
-		{
-			modelObject = value;
-		}
-		
-		
-		[Inspectable(category="expanz",enumeration="true, false", defaultValue="true")]
-		public function get AutoPopulate():String
-		{
-			return autoPopulate;
-		}
-		public function set AutoPopulate(value:String):void
-		{
-			autoPopulate = value;
-		}
-		private var autoPopulate:String="true";
-
-		public function fillServerRegistrationXml(dp:XML):XML
-		{
-			return dp;
-		}
-
-		private var type:String;
-
-		public function get Type():String
-		{
-			return type;
-		}
-
-		public function set Type(value:String):void
-		{
-			type = value;
-		}
 
 		private function doubleClickHandler(event:MouseEvent):void
 		{
@@ -348,7 +262,8 @@ package com.expanz.controls.halo
 				return;
 			
 			var harness:ControlHarness = harness;
-			var contextXML:XML = <Context id={event.target.data.@id} Type={event.target.data.@Type}/>;			
+			var type:String = event.target.data.@Type;
+			var contextXML:XML = <Context id={event.target.data.@id} Type={type}/>;			
 			var menuActionXML:XML = <MenuAction defaultAction="1"/>;
 
 			if (modelObject)

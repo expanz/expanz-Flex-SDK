@@ -434,7 +434,7 @@ package com.expanz
 			
 			if (myFormMappings[id] == null)
 			{
-				Alert.show("Developer Message:\nNo form mapping defined for Activity: " + act + ", Style: " + style + ". \n\nPlease check your form mappings XML that the Activity Name and Style map to a component and the component is being compiled into the application.", "Client form mapping configuration error");				
+				Alert.show("Developer Message:\nNo form mapping defined for Activity: " + act + ", Style: " + style + ". \n\nPlease check your form mappings XML that the Activity Name and Style map to a View component that exists in your application otherwise you may need to create a view for it.", "Client form mapping configuration error");				
 				return;
 			}
 			

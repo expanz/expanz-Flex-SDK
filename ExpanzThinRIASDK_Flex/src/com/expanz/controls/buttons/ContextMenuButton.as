@@ -47,6 +47,7 @@ package com.expanz.controls.buttons
 			addEventListener(MouseEvent.CLICK, onClick_Handler, false, 0, true);
 		}
 		
+		
 		//------------------------------------------------------
 		// IContextMenuPublisher
 		//------------------------------------------------------		
@@ -83,23 +84,34 @@ package com.expanz.controls.buttons
 			var action:String = ((event as MenuEvent).item as XML).@data;
 			var node:XML = harness.MenuActionElement(action, ModelObject);
 			harness.sendXml(node);				
-		}		
+		}
 		
 		private function onClick_Handler(event:MouseEvent):void
 		{			
 			//Developer may have a server method for creating the context menu
-			if (MethodName=="")
-			{
-				var xml:XML
-				var id:String=xml.@id;
-				var type:String=xml.@Type;
+			if (!MethodName || MethodName=="")
+			{				
+				//If no Method to retrieve the Context menu then try some automation to assume the context and id				
+				var id:String			//id of the row e.g. 16422
+				var type:String			//Type of the MO in the row e.g ItemSummary
+				
+				//try to gather the context assuming this is in a list
+				if(this.parentDocument.data)
+				{								
+					id = this.parentDocument.data.@id[0];
+					type = this.parentDocument.data.@Type[0];
+				}
 				
 				// build menu dynamically from server
-				var nodes:ArrayCollection = harness.getContextMenuRequest(id, type, ModelObject);
-				ActivityHarness.ContextMenuPublisher = this;
-				
-				harness.sendXmlList(nodes);
+				if(id && type && ModelObject)
+				{
+					var nodes:ArrayCollection = harness.getContextMenuRequest(id, type, ModelObject);
+					ActivityHarness.ContextMenuPublisher = this;
+					
+					harness.sendXmlList(nodes);
+				}
 			}	
+			
 			//Tell the activity this is the current ContextMenuPublisher to publish to 
 			ActivityHarness.ContextMenuPublisher = this;			
 		}		

@@ -78,6 +78,11 @@ package com.expanz.interfaces
 		 * The Type of the ModelObject being rendered in this IDataControl 
 		 */
 		function get Type():String;
+		
+		/**
+		 *  
+		 */
+		//function get QueryMode():String;
 				
 		/**
 		 * TODO: DOCUMENT 

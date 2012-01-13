@@ -161,7 +161,8 @@ package com.expanz.controls
 				if(col.@["width"].length())
 				{
 					var width:int=parseInt(col.@["width"]);
-					if(width>0) {
+					if(width>0) 
+					{
 						displayColumn=col.@[MessageSchemaAttributes.IDAttrib];
 						break;
 					}
@@ -184,7 +185,9 @@ package com.expanz.controls
 			this.labelFunction=itemLabel;
 		}
 		
-		private var dataId:String;		
+		private var dataId:String;
+		
+		[Inspectable(category="expanz")]
 		public function get DataId():String
 		{
 			return fieldId;
@@ -194,6 +197,8 @@ package com.expanz.controls
 		}
 		
 		private var queryId:String;
+		
+		[Inspectable(category="expanz")]
 		public function get QueryID():String
 		{
 			return queryId;
@@ -203,6 +208,8 @@ package com.expanz.controls
 			queryId=value;
 		}
 		private var populateMethod:String;
+		
+		[Inspectable(category="expanz")]
 		public function get PopulateMethod():String
 		{
 			return populateMethod;
@@ -212,6 +219,8 @@ package com.expanz.controls
 			populateMethod=value;
 		}
 		private var modelObject:String;
+		
+		[Inspectable(category="expanz")]
 		public function get ModelObject():String
 		{
 			return modelObject;
@@ -221,6 +230,9 @@ package com.expanz.controls
 			modelObject=value;
 		}
 		private var autoPopulate:String;
+		
+		//[Inspectable(category="expanz", enumeration="0, 1, once, ", defaultValue="")]
+		[Inspectable(category="expanz")]
 		public function get AutoPopulate():String
 		{
 			return autoPopulate;
@@ -244,6 +256,19 @@ package com.expanz.controls
 		{
 			type=value;
 		}
+		
+		private var queryMode:String;
+		[Inspectable(category="expanz")]
+		public function get QueryMode():String
+		{
+			return queryMode;
+		}
+		public function set QueryMode(value:String):void
+		{
+			queryMode=value;
+		}
+		
+		
 		
 		//--------------------------------------------------------------------------
 		//

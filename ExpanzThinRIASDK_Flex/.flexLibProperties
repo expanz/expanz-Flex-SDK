@@ -117,6 +117,7 @@
     <classEntry path="com.expanz.controls.MessagePanelTextArea"/>
     <classEntry path="com.expanz.Version"/>
     <classEntry path="com.expanz.controls.ImageEx"/>
+    <classEntry path="com.expanz.constants.AutoPopulateValues"/>
   </includeClasses>
   <includeResources>
     <resourceEntry destPath="design.xml" sourcePath="design.xml"/>

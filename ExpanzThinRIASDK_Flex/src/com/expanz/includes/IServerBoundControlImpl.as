@@ -31,7 +31,7 @@ Any changes to these files will have sweeping affects across the framework appli
 
 private var _fieldId:String; 
 
-[Inspectable(category="Expanz")]
+[Inspectable(category="expanz")]
 /**
  * @inheritDoc
  */
@@ -44,7 +44,6 @@ public function get fieldId():String
 	return "";
 }
 
-[Inspectable(category="Expanz")]
 public function set fieldId(value:String):void
 {
 	_fieldId = value;

@@ -181,6 +181,8 @@ package com.expanz.controls
 		}
 		
 		private var dataId:String;		
+		
+		[Inspectable(category="expanz")]
 		public function get DataId():String
 		{
 			return fieldId;
@@ -190,6 +192,7 @@ package com.expanz.controls
 		}
 		
 		private var queryId:String;
+		[Inspectable(category="expanz")]
 		public function get QueryID():String
 		{
 			return queryId;
@@ -198,7 +201,10 @@ package com.expanz.controls
 		{
 			queryId=value;
 		}
+		
 		private var populateMethod:String;
+		
+		[Inspectable(category="expanz")]
 		public function get PopulateMethod():String
 		{
 			return populateMethod;
@@ -208,6 +214,8 @@ package com.expanz.controls
 			populateMethod=value;
 		}
 		private var modelObject:String;
+		
+		[Inspectable(category="expanz")]
 		public function get ModelObject():String
 		{
 			return modelObject;
@@ -217,6 +225,8 @@ package com.expanz.controls
 			modelObject=value;
 		}
 		private var autoPopulate:String;
+		
+		[Inspectable(category="expanz",enumeration="0, 1, once", defaultValue="")]
 		public function get AutoPopulate():String
 		{
 			return autoPopulate;

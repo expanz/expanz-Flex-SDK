@@ -230,20 +230,25 @@ package com.expanz
 		{
 			for (var id:String in DataControls)
 			{
-				var control:IDataControl = DataControls[id] as IDataControl;
-				AppHost.request.CreateActivity.appendChild(<DataPublication useThumbNailImages={true}/>);
+				var control:IDataControl = DataControls[id] as IDataControl;								
+				AppHost.request.CreateActivity.appendChild(<DataPublication/>);
 				var DP:XML = AppHost.request.CreateActivity.DataPublication[AppHost.request.CreateActivity.DataPublication.length() - 1];
 				DP.@[MessageSchemaAttributes.IDAttrib] = control.DataId;
 
-				if (control.PopulateMethod == null && control.QueryID != null)
+				if (control.QueryID != null)
 				{
 					DP.@query = control.QueryID;
 				}
-				
-				if (control.PopulateMethod != null)
+				else
 				{
-					DP.@populateMethod = control.PopulateMethod;
+					if (control.PopulateMethod != null)
+					{
+						DP.@populateMethod = control.PopulateMethod;
+					}else{
+						DP.@populateMethod = 'ListMe';
+					}
 				}
+								
 
 				if (control.ModelObject != null)
 				{
@@ -259,6 +264,17 @@ package com.expanz
 				{
 					DP.@Type = control.Type;
 				}
+				
+				if ((control as Object).hasOwnProperty("QueryMode") && (control as Object).QueryMode != null)
+				{
+					DP.@queryMode = (control as Object).QueryMode;
+				}
+				
+				if ((control as Object).hasOwnProperty("UseThumbNailImages") && (control as Object).UseThumbNailImages != null)
+				{
+					DP.@useThumbNailImages = (control as Object).UseThumbNailImages;					
+				}
+				
 				DP = control.fillServerRegistrationXml(DP);
 					//				request.appendChild(DP);				
 			}
@@ -502,7 +518,7 @@ package com.expanz
 					case "ContextMenu":
 						if (ContextMenuPublisher == null)
 						{
-							mx.controls.Alert.show("No publisher for context menu");
+							//mx.controls.Alert.show("No publisher for context menu");
 						}
 						else
 							ContextMenuPublisher.publishContextMenu(child);

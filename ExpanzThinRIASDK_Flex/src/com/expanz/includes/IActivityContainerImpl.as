@@ -121,7 +121,7 @@ public function set ActivityName(value:String):void
 //----------------------------------
 //  ActivityStyle
 //----------------------------------
-[Inspectable(category="Expanz", enumeration="Browse")]
+[Inspectable(category="Expanz")]
 /**
  * @inheritDoc
  */

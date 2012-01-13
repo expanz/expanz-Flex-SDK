@@ -32,12 +32,11 @@
 	<component id="DataGridExHalo"		class="com.expanz.controls.halo.DataGridEx" />
 	<component id="DateFieldEx"			class="com.expanz.controls.halo.DateFieldEx" />	
 	<component id="ImageExHalo"			class="com.expanz.controls.halo.ImageEx" />
+	<component id="ImageBrowserPreviewUpload" class="com.expanz.controls.halo.ImageBrowserPreviewUpload" />
 	<component id="LinkButtonExHalo"	class="com.expanz.controls.halo.LinkButtonEx" />
 	<component id="ListExHalo"			class="com.expanz.controls.halo.ListEx" />
 	<component id="MenuBarEx"			class="com.expanz.controls.halo.MenuBarEx" />
-	<component id="TabNavigatorEx"		class="com.expanz.controls.halo.TabNavigatorEx" />
 	<component id="MessagePanelText"	class="com.expanz.controls.halo.MessagePanelText" />
-	<component id="ImageBrowserPreviewUpload" class="com.expanz.controls.halo.ImageBrowserPreviewUpload" />
 	<component id="RadioButtonPanel"	class="com.expanz.controls.halo.RadioButtonPanel" />
 	<component id="SearchFieldEx"	 	class="com.expanz.controls.halo.SearchFieldEx" />
 	<component id="TabNavigatorEx"	 	class="com.expanz.controls.halo.TabNavigatorEx" />

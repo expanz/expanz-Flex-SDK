@@ -101,7 +101,7 @@ private var modelObject:String;
 //----------------------------------
 //  AutoPopulate
 //----------------------------------
-[Inspectable(category="expanz",enumeration="true, false", defaultValue="true")]
+[Inspectable(category="expanz",enumeration="0, 1, once", defaultValue="")]	
 /**
  * @inheritDoc
  */

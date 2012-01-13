@@ -148,6 +148,11 @@ package com.expanz.controls
 		}
 		
 		//------------------------------------------------------
+		// IDataControl Interface Implementation include
+		//------------------------------------------------------
+		include "../includes/IDataControlImpl.as";
+		
+		//------------------------------------------------------
 		// IDataControl Interface Implementation
 		//------------------------------------------------------
 		
@@ -212,97 +217,7 @@ package com.expanz.controls
 			xmlListCollection.disableAutoUpdate();
 			dataProvider = xmlListCollection;		
 		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public function get DataId():String
-		{
-			return this.id;
-		}
-		
-		
-		[Inspectable(category="expanz")]
-		/**
-		 * @inheritDoc
-		 */
-		public function get QueryID():String
-		{
-			return queryId;
-		}
-		public function set QueryID(value:String):void
-		{
-			queryId = value;
-		}
-		private var queryId:String;
-		
-		[Inspectable(category="expanz")]
-		/**
-		 * @inheritDoc
-		 */
-		public function get PopulateMethod():String
-		{
-			//Set to "ListMe" to have the DataGrid be populated with the containing activities Model Object
-			if(!populateMethod || populateMethod == ""){
-				populateMethod = "ListMe";
-			}
-			return populateMethod;
-		}
-		public function set PopulateMethod(value:String):void
-		{
-			populateMethod = value;
-		}
-		private var populateMethod:String;
-		
-		[Inspectable(category="expanz")]
-		/**
-		 * @inheritDoc
-		 */
-		public function get ModelObject():String
-		{
-			return modelObject;
-		}
-		
-		public function set ModelObject(value:String):void
-		{
-			modelObject = value;
-		}
-		private var modelObject:String;
-		
-		[Inspectable(category="expanz",enumeration="true, false", defaultValue="true")]		
-		/**
-		 * @inheritDoc
-		 */
-		public function get AutoPopulate():String
-		{
-			return autoPopulate;
-		}
-		
-		public function set AutoPopulate(value:String):void
-		{
-			autoPopulate = value;
-		}
-		private var autoPopulate:String;
-		
-		public function fillServerRegistrationXml(dp:XML):XML
-		{
-			return dp;
-		}
-		
-		private var type:String;
-		
-		/**
-		 * @inheritDoc
-		 */
-		public function get Type():String
-		{
-			return type;
-		}
-		
-		public function set Type(value:String):void
-		{
-			type = value;
-		}
+			
 		
 		//--------------------------------------------------------------------------
 		//

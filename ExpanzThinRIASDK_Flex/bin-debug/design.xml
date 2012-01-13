@@ -58,6 +58,7 @@
 		<component name="com.expanz.controls.buttons.ContextMenuButton" namespace="expanz" category="expanzCategoryButtons">
 			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ButtonExtension"/> 
 			<mxmlProperties use="com.expanz.controls.buttons.ButtonEx">
+				<textfield id="ModelObject" name="ModelObject"/>
 			</mxmlProperties> 
 		</component>
 		
@@ -88,16 +89,58 @@
 				<textfield id="ActivityStyle" name="Activity Style"/>
 				<combo id="defferedActivation" name="Deffered Activation"/>
 			</mxmlProperties>
-		</component>				
+		</component>	
+		
+		<component name="com.expanz.activitycontainers.BorderContainerEx" namespace="expanz" category="expanzCategoryActivityContainers">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ContainerExtension"/> 
+			<mxmlProperties use="spark.components.Container" >
+				<textfield id="ActivityName" name="Activity Name"/>
+				<textfield id="ActivityStyle" name="Activity Style"/>
+				<combo id="defferedActivation" name="Deffered Activation"/>
+			</mxmlProperties>
+		</component>
+		
+		<component name="com.expanz.activitycontainers.SkinnableContainerEx" namespace="expanz" category="expanzCategoryActivityContainers">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.SkinnableContainerExtension"/> 
+			<mxmlProperties use="spark.components.SkinnableContainer" >
+				<textfield id="ActivityName" name="Activity Name"/>
+				<textfield id="ActivityStyle" name="Activity Style"/>
+				<combo id="defferedActivation" name="Deffered Activation"/>
+			</mxmlProperties>
+		</component>
 		
 		<!--== EXPANZ SPARK CONTROLS ==============================================================-->
 			
-		<component name="com.expanz.controls.TextInputEx" namespace="expanz" category="expanzCategorySparkControls">
-			<designExtension class="com.adobe.flexide.extensions.components.spark.components.TextInputExtension"/> 
+		<component name="com.expanz.controls.CheckBoxEx" namespace="expanz" category="expanzCategorySparkControls">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.CheckBoxExtension"/> 
+			<mxmlProperties use="spark.components.CheckBox">
+				<textfield id="fieldId" name="Field ID"/>				
+			</mxmlProperties> 
+		</component>
+		
+		<component name="com.expanz.controls.DropDownListEx" namespace="expanz" category="expanzCategorySparkControls">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.DropDownListExtension"/> 
 			<mxmlProperties>
-				<textfield id="fieldId" name="Field ID"/>
+				<textfield id="fieldId" name="Field ID"/>				
 				<textfield id="prompt" name="Prompt Text"/>
-				<textfield id="text" name="Text"/>
+				<textfield id="QueryID" name="QueryID"/>
+				<textfield id="PopulateMethod" name="PopulateMethod"/>
+				<textfield id="ModelObject" name="ModelObject"/>
+				<combo id="AutoPopulate" name="AutoPopulate"/>	
+			</mxmlProperties> 
+		</component>
+		
+		<component name="com.expanz.controls.FormItemEx" namespace="expanz" category="expanzCategorySparkControls" >
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.FormItemExtension"/> 
+			<mxmlProperties use="spark.components.FormItem" >
+				<textfield id="fieldId" name="Field ID"/>
+			</mxmlProperties> 
+		</component>
+		
+		<component name="com.expanz.controls.ImageEx" namespace="expanz" category="expanzCategorySparkControls" >
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ImageExtension"/> 
+			<mxmlProperties use="spark.components.Image" >
+				<textfield id="fieldId" name="Field ID"/>
 			</mxmlProperties> 
 		</component>
 		
@@ -109,26 +152,45 @@
 			</mxmlProperties> 
 		</component>
 		
-		<component name="com.expanz.controls.FormItemEx" namespace="expanz" category="expanzCategorySparkControls" >
-			<designExtension class="com.adobe.flexide.extensions.components.spark.components.FormItemExtension"/> 
-			<mxmlProperties use="spark.components.FormItem" >
-				<textfield id="fieldId" name="Field ID"/>
+		<component name="com.expanz.controls.MessagePanelTextArea" namespace="expanz" category="expanzCategorySparkControls">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.TextAreaExtension"/> 
+			<mxmlProperties use="spark.components.TextArea" >
+				<textfield id="popupErrors" name="Show Alerts for Errors?"/>				
 			</mxmlProperties> 
 		</component>
 		
-		<!--== EXPANZ DATACONTROLS CONTROLS ==============================================================-->
-		
-		<component name="com.expanz.controls.ListEx" displayName="ListEx (Spark)" namespace="expanz" category="expanzCategoryDataControls">
+		<component name="com.expanz.controls.ProcessMapNavigationMenuList" namespace="expanz" category="expanzCategorySparkControls">
 			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ListExtension"/> 
-			<mxmlProperties >
-				<textfield id="QueryID" name="QueryID"/>
-				<textfield id="PopulateMethod" name="PopulateMethod"/>
-				<textfield id="ModelObject" name="ModelObject"/>
-				<combo id="AutoPopulate" name="AutoPopulate"/>	
-				<rendererTextfield id="itemRenderer" name="Item Renderer"/>			
+			<mxmlProperties use="spark.components.List">
+								
+			</mxmlProperties> 
+		</component>
+
+		<component name="com.expanz.controls.RadioButtonEx" namespace="expanz" category="expanzCategorySparkControls">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.RadioButtonExtension"/> 
+			<mxmlProperties use="spark.components.List">
+				<textfield id="fieldId" name="Field ID"/>			
 			</mxmlProperties> 
 		</component>
 		
+		<component name="com.expanz.controls.SearchInputEx" namespace="expanz" category="expanzCategorySparkControls">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.TextInputExtension"/> 
+			<mxmlProperties >
+				<textfield id="fieldId" name="Field ID"/>			
+			</mxmlProperties>
+		</component>
+		
+		<component name="com.expanz.controls.TextInputEx" namespace="expanz" category="expanzCategorySparkControls">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.TextInputExtension"/> 
+			<mxmlProperties>
+				<textfield id="fieldId" name="Field ID"/>
+				<textfield id="prompt" name="Prompt Text"/>
+				<textfield id="text" name="Text"/>
+			</mxmlProperties> 
+		</component>
+				
+		<!--== EXPANZ DATACONTROLS CONTROLS ==============================================================-->
+				
 		<component name="com.expanz.controls.DataGridEx" displayName="DataGridEx (Spark)"  namespace="expanz" category="expanzCategoryDataControls" excludeFromProjectType="mobile">
 			<designExtension class="com.adobe.flexide.extensions.components.spark.components.DataGridExtension"/> 
 			<mxmlProperties>
@@ -149,6 +211,27 @@
 			</mxmlProperties>
 		</component>
 		
+		<component name="com.expanz.controls.ListEx" displayName="ListEx (Spark)" namespace="expanz" category="expanzCategoryDataControls">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.ListExtension"/> 
+			<mxmlProperties >
+				<textfield id="QueryID" name="QueryID"/>
+				<textfield id="PopulateMethod" name="PopulateMethod"/>
+				<textfield id="ModelObject" name="ModelObject"/>
+				<combo id="AutoPopulate" name="AutoPopulate"/>	
+				<rendererTextfield id="itemRenderer" name="Item Renderer"/>			
+			</mxmlProperties> 
+		</component>
+		
+		<component name="com.expanz.controls.halo.TreeEx" displayName="TreeEx (Halo)" namespace="expanz" category="expanzCategoryDataControls">
+			<designExtension class="com.adobe.flexide.extensions.components.spark.components.TreeExtension"/> 
+			<mxmlProperties >
+				<textfield id="QueryID" name="QueryID"/>
+				<textfield id="PopulateMethod" name="PopulateMethod"/>
+				<textfield id="ModelObject" name="ModelObject"/>
+				<combo id="AutoPopulate" name="AutoPopulate"/>							
+			</mxmlProperties> 
+		</component>
+				
 		<!--== EXPANZ FORM COMPONENTS ==============================================================-->
 		
 		<component name="com.expanz.forms.LoginFormEx" namespace="expanz" category="expanzCategoryFormComponents">
@@ -169,6 +252,20 @@
 			</mxmlProperties> 
 		</component>
 		
+		<component name="com.expanz.controls.halo.ImageEx" namespace="expanz" category="expanzCategoryHaloControls">
+			<designExtension class="com.adobe.flexide.extensions.components.mx.components.ImageExtension"/>
+			<mxmlProperties use="mx.components.Image">
+				<textfield id="fieldId" name="Field ID"/>								
+			</mxmlProperties> 
+		</component>
+		
+		<component name="com.expanz.controls.halo.LinkButtonEx" namespace="expanz" category="expanzCategoryHaloControls">
+			<designExtension class="com.adobe.flexide.extensions.components.mx.components.LinkButtonExtension"/>
+			<mxmlProperties use="mx.components.Image">
+				<textfield id="fieldId" name="Field ID"/>
+			</mxmlProperties> 
+		</component>
+		
 		<component name="com.expanz.controls.halo.ImageBrowserPreviewUpload" namespace="expanz" category="expanzCategoryHaloControls">
 			<designExtension class="com.adobe.flexide.extensions.components.mx.components.CanvasExtension"/>
 			<defaultAttribute name="publishType" value="URL"/>
@@ -183,6 +280,12 @@
 		<component name="com.expanz.controls.halo.MenuBarEx" namespace="expanz" category="expanzCategoryHaloControls">
 			<designExtension class="com.adobe.flexide.extensions.components.mx.components.MenusExtension"/>
 			<mxmlProperties use="mx.components.MenuBar">								
+			</mxmlProperties> 
+		</component>
+		
+		<component name="com.expanz.controls.halo.TabNavigatorEx" namespace="expanz" category="expanzCategoryHaloControls">
+			<designExtension class="com.adobe.flexide.extensions.components.mx.components.TabNavigatorExtension"/>
+			<mxmlProperties use="mx.components.TabNavigator">								
 			</mxmlProperties> 
 		</component>
 		

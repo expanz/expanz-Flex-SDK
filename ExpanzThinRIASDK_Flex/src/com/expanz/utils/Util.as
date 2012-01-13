@@ -31,9 +31,15 @@ package com.expanz.utils
 		/**
 		 * Trim . from the fieldNames for field databinding references
 		 */
-		public static function formatColumnName(field:String):String
+		public static function formatColumnName(colDef:Object):String
 		{
-			return field.replace(".","");
+			if (colDef.hasOwnProperty("field"))
+			{
+				return colDef.@field.replace(".","");	
+			}else
+			{
+				return "cell" + colDef.@id;
+			}			
 		}
 		
 		
@@ -57,7 +63,7 @@ package com.expanz.utils
 				{			
 					var colData:XMLList = row.child(i);
 					var colDef:XMLList = data.Columns.child(i);
-					var colNameFormatted:String = formatColumnName(colDef.@field)
+					var colNameFormatted:String = formatColumnName(colDef)
 					newRow.appendChild(
 						<{colNameFormatted} label={colDef.@label} value={colData.toString()} datatype={colDef.@datatype} width={colDef.@width} sortValue={colData.@sortValue}>
 						{colData.toString()}
