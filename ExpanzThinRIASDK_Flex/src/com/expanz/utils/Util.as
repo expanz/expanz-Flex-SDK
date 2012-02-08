@@ -33,7 +33,7 @@ package com.expanz.utils
 		 */
 		public static function formatColumnName(colDef:Object):String
 		{
-			if (colDef.hasOwnProperty("field"))
+			if (colDef.hasOwnProperty("@field"))
 			{
 				return colDef.@field.replace(".","");	
 			}else
@@ -63,7 +63,7 @@ package com.expanz.utils
 				{			
 					var colData:XMLList = row.child(i);
 					var colDef:XMLList = data.Columns.child(i);
-					var colNameFormatted:String = formatColumnName(colDef)
+					var colNameFormatted:String = formatColumnName(colDef[0])
 					newRow.appendChild(
 						<{colNameFormatted} label={colDef.@label} value={colData.toString()} datatype={colDef.@datatype} width={colDef.@width} sortValue={colData.@sortValue}>
 						{colData.toString()}
