@@ -22,7 +22,7 @@ Includes a Server Model object explorer & project Template for creating expanz T
 1. Open FlashBuilder 
 1. Go to the **Help** menu 
 1. Select **Install New software**
-1. Enter the URL http:///developer.expanz.com/clientSDKs/Flex/FBplugin/V1.0
+1. Enter the URL http://developer.expanz.com/clientSDKs/Flex/FBplugin/V1.0
 1. Follow the rest of the wizard install instructions
 
 
