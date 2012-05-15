@@ -5,20 +5,21 @@ The expanz Thin RIA for Flex is a toolkit for developers to make it Web and Desk
 
 The expanz Thin RIA for Flex SDK is made available as an open source product under the Apache License, Version 2.0.  
 
-## Downloading the Library
+## Downloading the Library ##
 
 To download the library, select a download package (e.g. v4.5.1).  The download zip contains binaries for Flex 4.5.1, Alternatively, you can download the source and compile your own version.
 
-## Documentation
+## Documentation ##
 
 Plenty of rich resources over @ http://developer.expanz.com
 
-## Initial install and setup
+## Initial install and setup ##
 
 Flash Builder (eclipse) plugin install
 -------------------------
 
 Includes a Server Model object explorer & project Template for creating expanz Thin RIAs for Flex.
+
 1. Open FlashBuilder 
 1. Go to the **Help** menu 
 1. Select **Install New software**
@@ -38,6 +39,7 @@ expanz Project Templates
 expanz Model Object Explorer (for Design Mode)
 -------------------------
 Next we want to add the Model Object explorer to your Flash Perspective
+
 1. Open a view file in Design Mode
 1. Click on the menus **Window > Show View > Other**
 1. Under **expanz** select the **Model Object explorer**
